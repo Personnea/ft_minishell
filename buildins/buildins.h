@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.h                                         :+:      :+:    :+:   */
+/*   buildins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/21 14:04:34 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/27 17:24:51 by abarthes         ###   ########.fr       */
+/*   Created: 2026/01/27 16:41:06 by abarthes          #+#    #+#             */
+/*   Updated: 2026/01/27 17:24:17 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMINAL_H
-# define TERMINAL_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
 # include "../libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
 # include "../parser/parser.h"
-# include "../buildins/buildins.h"
+# include <stdio.h>
+
+int	buildins(t_parser **parser);
 
 #endif

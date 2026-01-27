@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:07 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/23 17:42:35 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:53:30 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "../lexer/lexer.h"
 # include "../libft/libft.h"
+
+// A ENELVER
+
+///////
 
 typedef struct s_parser
 {
@@ -26,5 +30,6 @@ typedef struct s_parser
 
 
 t_parser	*parsing(char *s);
+int			sanitize(t_parser **head);
 
 #endif

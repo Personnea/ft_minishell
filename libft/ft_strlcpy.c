@@ -6,13 +6,13 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:22:29 by abarthes          #+#    #+#             */
-/*   Updated: 2025/11/13 13:21:21 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/26 19:11:03 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <bsd/string.h>
 #include <stdio.h>
+#include <string.h>
 
 int	ft_strlcpy(char *dst, const char *src, size_t size)
 {

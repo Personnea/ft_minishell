@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:10 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/23 17:41:46 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/27 15:23:42 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include <stdio.h>
 
 int parser_clear(t_parser **lst)
 {
@@ -53,6 +52,7 @@ void	parser_add_back(t_parser **lst, t_parser *new)
 		while (temp->next)
 			temp = temp->next;
 		temp->next = new;
+		new->prev = temp;
 	}
 }
 
@@ -100,6 +100,8 @@ int	its_d_quote(t_parser **head, char *s, int *i)
 	while (s[x] && s[x] != '"')	
 		x++;
 	x++;
+	if (s[x - 1] != '"')
+		return (0);
 	if (new_parser(head, parser_node_new(DQUOTE, (s), x)) == 0)
 		return (0);
 	*i += x;
@@ -114,6 +116,8 @@ int	its_s_quote(t_parser **head, char *s, int *i)
 	while (s[x] && s[x] != '\'')	
 		x++;
 	x++;
+	if (s[x - 1] != '\'')
+		return (0);
 	if (new_parser(head, parser_node_new(SQUOTE, (s), x)) == 0)
 		return (0);
 	*i += x;
@@ -149,7 +153,7 @@ int	its_command(t_parser **head, char *s, int *i)
 			|| get_last_parser(*head)->type == CMD_ARG))
 		new = parser_node_new(CMD_ARG, (s), x);
 	else if (get_last_parser(*head) && (get_last_parser(*head)->type == REDIR_OUTPUT
-			|| get_last_parser(*head)->type == REDIR_OUTPUT_APP))
+			|| get_last_parser(*head)->type == REDIR_OUTPUT_APP || get_last_parser(*head)->type == REDIR_INPUT))
 		new = parser_node_new(FILENAME, (s), x);
 	else
 		new = parser_node_new(CMD, (s), x);
@@ -165,8 +169,6 @@ int its_redirection_output(t_parser **head, char *s, int *i)
 	int x;
 	t_parser *new;
 
-	if (get_last_parser(*head)->type == REDIR_OUTPUT_APP)
-		return (0);
 	if (s[1] == '>')
 	{
 		x = 2;
@@ -195,17 +197,6 @@ int	its_redirection_input(t_parser **head, char *s, int *i)
 	return (1);
 }
 
-int	its_delimeter(t_parser **head, char *s, int *i)
-{
-	int x;
-
-	x = 2;
-	if (new_parser(head, parser_node_new(DELIMITER, (s), x)) == 0)
-		return (0);
-	*i += x;
-	return (1);
-}
-
 int	check_special_char(t_parser **head, char *s, int *i)
 {
 	if (*s == '$' && *(s + 1) == '?')
@@ -222,8 +213,6 @@ int	check_special_char(t_parser **head, char *s, int *i)
 		return (its_redirection_output(head, s, i));
 	else if (*s == '<' && *(s + 1) != '<')
 		return (its_redirection_input(head, s, i));
-	else if (*s == '<' && *(s + 1) == '<')
-		return (its_delimeter(head, s, i));
 	else
 		return (its_command(head, s, i));
 }
