@@ -6,15 +6,22 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/27 17:25:40 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/28 16:00:48 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
+	(void) argc;
+	(void) argv;
 	char	*line;
+	t_envpath	*envpath;
+
+	envpath = NULL;
+	if (create_envpath_list(&envpath, envp) == 0)
+		return (1);
 	while (1)
 	{
 		line = readline("$miniswag>");
@@ -60,7 +67,7 @@ int	main(void)
 					temp = temp->next;
 				}
 				temp = test;
-				buildins(&temp);
+				buildins(&temp, envpath);
 			}
 			free(line);
 		}

@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:10 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/27 15:23:42 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:54:56 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@ int parser_clear(t_parser **lst)
 	}
 	*lst = 0;
 	return (0);
-}
-
-t_parser	*get_last_parser(t_parser *lst)
-{
-	if (!lst)
-		return (0);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
 }
 
 void	parser_add_back(t_parser **lst, t_parser *new)

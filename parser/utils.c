@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.h                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/21 14:04:34 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/27 18:31:34 by abarthes         ###   ########.fr       */
+/*   Created: 2026/01/28 15:48:39 by abarthes          #+#    #+#             */
+/*   Updated: 2026/01/28 16:00:08 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMINAL_H
-# define TERMINAL_H
+#include "parser.h"
 
-# include "../libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "../parser/parser.h"
-# include "../buildins/buildins.h"
-# include "../envpath/envpath.h"
+t_parser	*get_last_parser(t_parser *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
 
-#endif
+t_parser	*get_first_parser(t_parser *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->prev)
+		lst = lst->prev;
+	return (lst);
+}
+
