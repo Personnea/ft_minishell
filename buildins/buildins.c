@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:26 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/28 16:23:52 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/28 16:50:45 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,31 @@ int	buildin_unset(t_parser *cmd, t_envpath *envpath)
 	return (0);
 }
 
-int buildin_echo(t_parser *cmd)
+int buildin_echo(t_parser *cmd, t_envpath *envpath)
 {
 	t_parser	*temp;
 	int			is_n;
 
+	is_n = 0;
+	if (!cmd->next)
+	{
+		printf("\n");
+		return (0);
+	}
 	temp = cmd->next;
 	if (ft_strncmp(temp->s, "-n", 2) == 0)
 	{
 		is_n = 1;
 		temp = temp->next;
 	}
-	while (temp && temp->type == CMD_ARG)
+	while (temp)
 	{
-		printf("%s", temp->s);
+		if (temp->type == ENVVAR)
+			printf("%s", get_env_value_by_key(envpath, temp->s));
+		else
+			printf("%s", temp->s);
 		temp = temp->next;
-		if (temp && temp->type == CMD_ARG)
+		if (temp)
 			printf(" ");
 	}
 	if (!is_n)
@@ -121,7 +130,7 @@ int	check_buildin(t_parser *cmd, t_envpath *envpath)
 	if (cmd->type == CMD && ft_strncmp(cmd->s, "cd", 2) == 0 && ft_strlen(cmd->s) == 2)
 		return (buildin_cd(cmd, envpath));
 	else if (cmd->type == CMD && ft_strncmp(cmd->s, "echo", 4) == 0 && ft_strlen(cmd->s) == 4)
-		return (buildin_echo(cmd));
+		return (buildin_echo(cmd, envpath));
 	else if (cmd->type == CMD && ft_strncmp(cmd->s, "exit", 4) == 0 && ft_strlen(cmd->s) == 4)
 		return (buildin_exit());
 	else if (cmd->type == CMD && ft_strncmp(cmd->s, "export", 6) == 0 && ft_strlen(cmd->s) == 6)

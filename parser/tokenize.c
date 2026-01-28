@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:10 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/28 15:54:56 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:52:20 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,16 @@ int	new_parser(t_parser **head, t_parser *new_node)
 	return (1);
 }
 
+#include <stdio.h>
+
 int	its_env_var(t_parser **head, char *s, int *i)
 {
 	int x;
 
-	x = 0;
-	while (s[x] && s[x] != ' ' && s[x] != '\t')	
+	x = 1;
+	while (s[x] && ft_isalnum(s[x]))
 		x++;
-	if (new_parser(head, parser_node_new(ENVVAR, (s), x)) == 0)
+	if (new_parser(head, parser_node_new(ENVVAR, (s + 1), x)) == 0)
 		return (0);
 	*i += x;
 	return (1);
@@ -138,7 +140,7 @@ int	its_command(t_parser **head, char *s, int *i)
 
 	x = 0;
 	while (s[x] && s[x] != ' ' && s[x] != '\t' && s[x] != '|' && s[x] != '<'
-		&& s[x] != '>' && s[x] != '\'' && s[x] != '"' && s[x] != '$' && s[x] != '?')	
+		&& s[x] != '>' && s[x] != '\'' && s[x] != '"')
 		x++;
 	if (get_last_parser(*head) && (get_last_parser(*head)->type == CMD
 			|| get_last_parser(*head)->type == CMD_ARG))
