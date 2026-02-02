@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 12:56:56 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/31 13:26:50 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 16:29:55 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,44 +48,6 @@ t_parser	*get_last_input_file(t_parser **parsed)
 		temp = temp->next;
 	}
 	return (file);
-}
-
-int	make_redirection(t_parser **parsed)
-{
-	t_parser	*last_file_output;
-	t_parser	*last_file_input;
-	int			fd;
-
-	last_file_output = get_last_output_file(parsed);
-	last_file_input = get_last_input_file(parsed);
-
-	if (last_file_output)
-	{
-		fd = open(last_file_output->s, O_WRONLY);
-		if (fd < 0)
-		{
-			char src[1024] = "minishell: ";
-			ft_strlcat(src, last_file_output->s, 1010);
-			perror(src);
-			return (1);
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	if (last_file_input)
-	{
-		fd = open(last_file_input->s, O_RDONLY);
-		if (fd < 0)
-		{
-			char src[1024] = "minishell: ";
-			ft_strlcat(src, last_file_input->s, 1010);
-			perror(src);
-			return (1);
-		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	return (0);
 }
 
 int	create_files(t_parser **parsed)
@@ -145,7 +107,7 @@ int	file_handler(t_parser **parsed)
 		return (1);
 	if (create_files(parsed) != 0)
 		return (1);
-	if (make_redirection(parsed) != 0)
-		return (1);
+	// if (make_redirection(parsed) != 0)
+	// 	return (1);
 	return (0);
 }

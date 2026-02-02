@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fhandler.h                                         :+:      :+:    :+:   */
+/*   program.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/31 12:56:03 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 16:04:49 by abarthes         ###   ########.fr       */
+/*   Created: 2026/02/02 17:42:43 by abarthes          #+#    #+#             */
+/*   Updated: 2026/02/02 19:36:57 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FHANDLER_H
-# define FHANDLER_H
+#ifndef PROGRAM_H
+# define PROGRAM_H
 
 # include "../parser/parser.h"
 # include "../envpath/envpath.h"
-# include <fcntl.h>
 
-
-int			file_handler(t_parser **parsed);
-t_parser	*get_last_output_file(t_parser **parsed);
-t_parser	*get_last_input_file(t_parser **parsed);
+typedef struct s_program
+{
+	t_parser    **parsed;
+	t_envpath	**envpath;
+	int			saved_stdin;
+	int			saved_stdout;
+	char		*here_doc_tempfile;
+	int			last_exit_status;
+	char        **envp;
+}	t_program;
 
 #endif

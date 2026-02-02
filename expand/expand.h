@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:49:19 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/29 15:00:34 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:36:30 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include "../parser/parser.h"
 # include "../terminal/terminal.h"
+# include "../envpath/envpath.h"
+# include "../terminal/program.h"
 
-int	send_to_expand(t_parser **parsed, t_envpath *envpath);
+int	send_to_expand(t_parser **parsed, t_envpath *envpath, t_program *program);
 
 #endif

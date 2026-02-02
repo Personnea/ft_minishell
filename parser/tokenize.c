@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:10 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/31 10:29:58 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:44:46 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,13 @@ int	its_env_var(t_parser **head, char *s, int *i)
 	x = 1;
 	while (s[x] && ft_isalnum(s[x]))
 		x++;
+	if (get_last_parser(*head)->type == DELIMITER)
+	{
+		if (new_parser(head, parser_node_new(IS_DELIMITER, (s), x)) == 0)
+			return (0);
+		*i += x;
+		return (1);
+	}
 	if (new_parser(head, parser_node_new(ENVVAR, (s + 1), x)) == 0)
 		return (0);
 	*i += x;
@@ -101,6 +108,13 @@ int	its_d_quote(t_parser **head, char *s, int *i)
 	x++;
 	if (s[x - 1] != '"')
 		return (0);
+	if (get_last_parser(*head)->type == DELIMITER)
+	{
+		if (new_parser(head, parser_node_new(IS_DELIMITER, (s + 1), x - 2)) == 0)
+			return (0);
+		*i += x;
+		return (1);
+	}
 	if (new_parser(head, parser_node_new(DQUOTE, (s), x)) == 0)
 		return (0);
 	*i += x;
@@ -117,6 +131,13 @@ int	its_s_quote(t_parser **head, char *s, int *i)
 	x++;
 	if (s[x - 1] != '\'')
 		return (0);
+	if (get_last_parser(*head)->type == DELIMITER)
+	{
+		if (new_parser(head, parser_node_new(IS_DELIMITER, (s + 1), x - 2)) == 0)
+			return (0);
+		*i += x;
+		return (1);
+	}
 	if (new_parser(head, parser_node_new(SQUOTE, (s), x)) == 0)
 		return (0);
 	*i += x;
@@ -139,14 +160,11 @@ int its_pipe(t_parser **head, char *s, int *i)
 	return (1);
 }
 
-#include <stdio.h>
-
 int	its_command(t_parser **head, char *s, int *i)
 {
 	int x;
 	t_parser *new;
 
-	// printf("%s\n", s);
 	x = 0;
 	while (s[x] && s[x] != ' ' && s[x] != '\t' && s[x] != '|' && s[x] != '<'
 		&& s[x] != '>' && s[x] != '\'' && s[x] != '"')

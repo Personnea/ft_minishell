@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:49:27 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/30 15:50:00 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:40:20 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	expand_exit_status(t_parser *node, int status)
 		return (1);
 	free(node->s);
 	node->s = status_str;
+	node->type = CMD_ARG;
 	return (0);
 }
 
@@ -160,9 +161,8 @@ int	expand_s_quote(t_parser *node)
 	return (0);
 }
 
-int	send_to_expand(t_parser **parsed, t_envpath *envpath)
+int	send_to_expand(t_parser **parsed, t_envpath *envpath, t_program *program)
 {
-	//expand logic here
 	t_parser	*temp;
 
 	temp = *parsed;
@@ -175,7 +175,7 @@ int	send_to_expand(t_parser **parsed, t_envpath *envpath)
 		else if (temp->type == SQUOTE)
 			expand_s_quote(temp);
 		else if (temp->type == EXIT_STATUS)
-			expand_exit_status(temp, 0);
+			expand_exit_status(temp, program->last_exit_status);
 		else if (temp->type == CMD || temp->type == CMD_ARG)
 			expand_plain_text(temp, envpath);
 		temp = temp->next;

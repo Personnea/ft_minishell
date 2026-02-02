@@ -6,7 +6,7 @@
 #    By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/01/31 13:13:17 by abarthes         ###   ########.fr        #
+#    Updated: 2026/02/02 18:45:49 by abarthes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ CFLAGS  = -Wall -Wextra -Werror -g
 
 SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c buildins/buildins.c \
 		envpath/envpath.c envpath/envp_utils.c parser/utils.c expand/expand.c \
-		signals/signals.c files_handler/fhandler.c
+		signals/signals.c files_handler/fhandler.c here_doc/here_doc.c \
+		execve/execve.c execve/utils.c execve/find_command.c execve/execve_piped.c \
+		execve/parse_command.c
 
 OBJ = $(SRC:.c=.o)
 
