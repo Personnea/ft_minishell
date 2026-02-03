@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 23:07:17 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/03 04:00:37 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,26 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_program	*program;
-	(void)		argc;
-	(void)		argv;
 
+	argc = 0;
+	argv = NULL;
 	program = malloc(sizeof(t_program));
+	if (!program)
+		exit (1);
 	program->parsed = malloc(sizeof(t_parser *));
+	if (!program->parsed)
+	{
+		free(program);
+		exit(1);
+	}
 	program->envp = envp;
 	program->envpath = malloc(sizeof(t_envpath *));
+	if (!program->envpath)
+	{
+		free(program->parsed);
+		free(program);
+		exit(1);
+	}
 	*(program->envpath) = NULL;
 	if (create_envpath_list(program->envpath, envp) == 0)
 		return (1);
@@ -183,7 +196,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		if (!line)
-			break ;
+			break ; //handle the exit cleanly, this is what happens when CTRL + D
 		if (line && *line)
 		{
 			add_history(line);
