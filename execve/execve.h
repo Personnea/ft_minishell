@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 01:57:54 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/03 19:58:10 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "../files_handler/fhandler.h"
 # include "../terminal/program.h"
 # include <sys/wait.h>
+# include "../buildins/buildins.h"
 
 typedef struct s_commands
 {
