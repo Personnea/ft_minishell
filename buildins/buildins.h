@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:06 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 23:21:59 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/03 04:06:30 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../parser/parser.h"
 # include "../envpath/envpath.h"
 # include "../terminal/program.h"
+# include <readline/history.h>
 # include <stdio.h>
 
 //			--- Handle the env ---			//

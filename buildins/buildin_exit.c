@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 23:10:31 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/03 01:23:04 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/03 04:10:56 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	free_parsers(t_parser *parser)
 
 int	buildin_exit(t_program *program)
 {
+	clear_history();
 	if (!program)
 		exit(1);
 	if (program->parsed)
