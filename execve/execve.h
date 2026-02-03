@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 18:46:10 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 01:57:54 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,18 @@ typedef struct s_commands
 	struct s_commands	*next;
 }	t_commands;
 
-char	*find_command(char *command, char *pathline);
+//				---Utils---				//
+void	do_command_piped(t_commands *cmd, char *path, char **envp);
+void	handle_the_child(int pipe_fd[2], t_program *program, t_commands *cmd);
 void	clearmatrix(char **tab);
+void	do_command(t_parser *cmd, char *path, char **envp);
+
+//				---Checks---			//
+int		there_is_at_least_one_pipe(t_parser *lineread);
+int		count_cmd_args(t_parser *cmd);
+int		is_a_buildin(char *cmd);
+
+char	*find_command(char *command, char *pathline);
 int		execve_handler(t_program *program);
 void	do_command(t_parser *cmd, char *path, char **envp);
 int		execve_with_pipe(t_program *program);

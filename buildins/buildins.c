@@ -3,73 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   buildins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:26 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 19:34:18 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 23:16:03 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buildins.h"
 
-int	buildin_export(t_parser *cmd, t_envpath *envpath)
-{
-	char	*key;
-	char	*value;
-
-	if (!cmd->next)
-		return (print_envpath_list_sorted(envpath));
-	if (!cmd->next || cmd->next->type != CMD_ARG || !ft_strchr(cmd->next->s, '=') || cmd->next->s[0] == '=')
-		return (1);
-	if (!ft_isalpha(cmd->next->s[0]))
-		return (1);
-	if (cmd->next->next && (cmd->next->next->type == CMD_ARG || cmd->next->next->type == CMD))
-	{
-		key = ft_strtrim(cmd->next->s, "=");
-		value = cmd->next->next->s;
-	}
-	else
-	{
-		char **array = ft_split(cmd->next->s, '=');
-		printf("Split result: %s, %s\n", array[0], array[1]);
-		if (!array || !array[0] || !array[1])
-			return (1);
-		key = ft_strdup(array[0]);
-		value = ft_strdup(array[1]);
-		free(array[0]);
-		free(array[1]);
-		free(array);
-	}
-	printf("Exporting key: %s with value: %s\n", key, value);
-	if (!new_envpath(&envpath, key, value))
-		return (1);
-	return (0);
-}
-
-int	buildin_unset(t_parser *cmd, t_envpath *envpath)
-{
-	t_parser	*temp;
-	t_envpath	*env_temp;
-
-	temp = cmd->next;
-	while (temp && temp->type == CMD_ARG)
-	{
-		env_temp = envpath;
-		while (env_temp)
-		{
-			if (ft_strncmp(env_temp->index, temp->s, ft_strlen(temp->s)) == 0)
-			{
-				envp_delone(env_temp);
-				break ;
-			}
-			env_temp = env_temp->next;
-		}
-		temp = temp->next;
-	}
-	return (0);
-}
-
-int buildin_echo(t_parser *cmd)
+int	buildin_echo(t_parser *cmd)
 {
 	t_parser	*temp;
 	int			is_n;
@@ -95,12 +38,6 @@ int buildin_echo(t_parser *cmd)
 	}
 	if (!is_n)
 		printf("\n");
-	return (0);
-}
-
-int	buildin_exit(void)
-{
-	exit(0);
 	return (0);
 }
 
@@ -139,33 +76,40 @@ int	buildin_cd(t_parser *cmd, t_envpath *envpath)
 	}
 }
 
-int	check_buildin(t_parser *cmd, t_envpath *envpath)
+int	check_buildin(t_parser *cmd, t_envpath *envpath, t_program *program)
 {
-	if (cmd->type == CMD && ft_strncmp(cmd->s, "cd", 2) == 0 && ft_strlen(cmd->s) == 2)
+	if (cmd->type == CMD && ft_strncmp(cmd->s, "cd", 2) == 0
+		&& ft_strlen(cmd->s) == 2)
 		return (buildin_cd(cmd, envpath));
-	else if (cmd->type == CMD && ft_strncmp(cmd->s, "echo", 4) == 0 && ft_strlen(cmd->s) == 4)
+	else if (cmd->type == CMD && ft_strncmp(cmd->s, "echo", 4) == 0
+		&& ft_strlen(cmd->s) == 4)
 		return (buildin_echo(cmd));
-	else if (cmd->type == CMD && ft_strncmp(cmd->s, "exit", 4) == 0 && ft_strlen(cmd->s) == 4)
-		return (buildin_exit());
-	else if (cmd->type == CMD && ft_strncmp(cmd->s, "export", 6) == 0 && ft_strlen(cmd->s) == 6)
+	else if (cmd->type == CMD && ft_strncmp(cmd->s, "exit", 4) == 0
+		&& ft_strlen(cmd->s) == 4)
+		return (buildin_exit(program));
+	else if (cmd->type == CMD && ft_strncmp(cmd->s, "export", 6) == 0
+		&& ft_strlen(cmd->s) == 6)
 		return (buildin_export(cmd, envpath));
-	else if (cmd->type == CMD && ft_strncmp(cmd->s, "unset", 5) == 0 && ft_strlen(cmd->s) == 5)
+	else if (cmd->type == CMD && ft_strncmp(cmd->s, "unset", 5) == 0
+		&& ft_strlen(cmd->s) == 5)
 		return (buildin_unset(cmd, envpath));
-	else if (cmd->type == CMD && ft_strncmp(cmd->s, "pwd", 3) == 0 && ft_strlen(cmd->s) == 3)
+	else if (cmd->type == CMD && ft_strncmp(cmd->s, "pwd", 3) == 0
+		&& ft_strlen(cmd->s) == 3)
 		return (buildin_pwd());
-	else if (cmd->type == CMD && ft_strncmp(cmd->s, "env", 3) == 0 && ft_strlen(cmd->s) == 3)
+	else if (cmd->type == CMD && ft_strncmp(cmd->s, "env", 3) == 0
+		&& ft_strlen(cmd->s) == 3)
 		return (print_envpath_list(envpath, 0));
 	return (0);
 }
 
-int	buildins(t_parser **parser, t_envpath *envpath)
+int	buildins(t_parser **parser, t_envpath *envpath, t_program *program)
 {
 	t_parser	*temp;
 
 	if (!parser || !*parser)
 		return (0);
 	temp = *parser;
-	if (check_buildin(temp, envpath))
+	if (check_buildin(temp, envpath, program))
 		return (1);
 	return (0);
 }

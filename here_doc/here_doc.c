@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 13:30:51 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 14:35:39 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 02:20:36 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	doing_here_doc_util(t_parser *lineread)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strncmp(line, lineread->next->s, ft_strlen(lineread->next->s) + 1))
+		if (!line || !ft_strncmp(line, lineread->next->s,
+				ft_strlen(lineread->next->s) + 1))
 		{
 			free(line);
 			break ;
@@ -37,7 +38,8 @@ int	doing_here_doc_util(t_parser *lineread)
 
 int	doing_here_doc(t_parser **lineread)
 {
-	t_parser *temp = *lineread;
+	t_parser	*temp = *lineread;
+
 	while (temp)
 	{
 		if (temp->type == DELIMITER)

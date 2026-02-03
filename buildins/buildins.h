@@ -3,21 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   buildins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:06 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/28 12:20:06 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 23:21:59 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef BUILDINS_H
+# define BUILDINS_H
 
 # include "../libft/libft.h"
 # include "../parser/parser.h"
 # include "../envpath/envpath.h"
+# include "../terminal/program.h"
 # include <stdio.h>
 
-int	buildins(t_parser **parser, t_envpath *envpath);
+//			--- Handle the env ---			//
+int	buildin_export(t_parser *cmd, t_envpath *envpath);
+int	buildin_unset(t_parser *cmd, t_envpath *envpath);
+
+//			--- Handle the exit ---			//
+int	buildin_exit(t_program *program);
+
+//		--- Main buildin function ---		//
+int	buildins(t_parser **parser, t_envpath *envpath, t_program *program);
 
 #endif

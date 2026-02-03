@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fhandler.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 12:56:56 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 16:29:55 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 02:18:26 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_parser	*get_last_input_file(t_parser **parsed)
 
 int	create_files(t_parser **parsed)
 {
-	t_parser *temp;
-	int		fd;
+	t_parser	*temp;
+	int			fd;
 
 	temp = *parsed;
 	while (temp)
@@ -78,8 +78,8 @@ int	create_files(t_parser **parsed)
 
 int	check_exist_files(t_parser **parsed)
 {
-	t_parser *temp;
-	int		fd;
+	t_parser	*temp;
+	int			fd;
 
 	temp = *parsed;
 	while (temp)

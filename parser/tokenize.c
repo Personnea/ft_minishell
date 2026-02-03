@@ -3,72 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:10 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 14:44:46 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 02:38:49 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-int parser_clear(t_parser **lst)
-{
-	t_parser	*temp;
-	t_parser	*next;
-
-	if (!lst || !*lst)
-		return (0);
-	temp = *lst;
-	while (temp)
-	{
-		next = temp->next;
-		free(temp->s);
-		free(temp);
-		temp = next;
-	}
-	*lst = 0;
-	return (0);
-}
-
-void	parser_add_back(t_parser **lst, t_parser *new)
-{
-	t_parser	*temp;
-
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		temp = *lst;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new;
-		new->prev = temp;
-	}
-}
-
-t_parser	*parser_node_new(lexer type, char *s, int x)
-{
-	t_parser	*new;
-
-	new = malloc(sizeof(t_parser));
-	if (!new)
-		return (0);
-	new->type = type;
-	new->s = malloc((x + 1) * sizeof(char));
-	ft_strlcpy(new->s, s, x + 1);
-	new->prev = 0;
-	new->next = 0;
-	return (new);
-}
-
-int	new_parser(t_parser **head, t_parser *new_node)
-{
-	if (!new_node)
-		return (0);
-	parser_add_back(head, new_node);
-	return (1);
-}
 
 int	its_delimiter(t_parser **head, char *s, int *i)
 {
@@ -78,118 +20,10 @@ int	its_delimiter(t_parser **head, char *s, int *i)
 	return (1);
 }
 
-int	its_env_var(t_parser **head, char *s, int *i)
+int	its_redirection_output(t_parser **head, char *s, int *i)
 {
-	int x;
-
-	x = 1;
-	while (s[x] && ft_isalnum(s[x]))
-		x++;
-	if (get_last_parser(*head)->type == DELIMITER)
-	{
-		if (new_parser(head, parser_node_new(IS_DELIMITER, (s), x)) == 0)
-			return (0);
-		*i += x;
-		return (1);
-	}
-	if (new_parser(head, parser_node_new(ENVVAR, (s + 1), x)) == 0)
-		return (0);
-	*i += x;
-	return (1);
-}
-
-int	its_d_quote(t_parser **head, char *s, int *i)
-{
-	int x;
-
-	x = 1;
-	while (s[x] && s[x] != '"')	
-		x++;
-	x++;
-	if (s[x - 1] != '"')
-		return (0);
-	if (get_last_parser(*head)->type == DELIMITER)
-	{
-		if (new_parser(head, parser_node_new(IS_DELIMITER, (s + 1), x - 2)) == 0)
-			return (0);
-		*i += x;
-		return (1);
-	}
-	if (new_parser(head, parser_node_new(DQUOTE, (s), x)) == 0)
-		return (0);
-	*i += x;
-	return (1);
-}
-
-int	its_s_quote(t_parser **head, char *s, int *i)
-{
-	int x;
-
-	x = 1;
-	while (s[x] && s[x] != '\'')	
-		x++;
-	x++;
-	if (s[x - 1] != '\'')
-		return (0);
-	if (get_last_parser(*head)->type == DELIMITER)
-	{
-		if (new_parser(head, parser_node_new(IS_DELIMITER, (s + 1), x - 2)) == 0)
-			return (0);
-		*i += x;
-		return (1);
-	}
-	if (new_parser(head, parser_node_new(SQUOTE, (s), x)) == 0)
-		return (0);
-	*i += x;
-	return (1);
-}
-
-int	its_exit_status(t_parser **head, char *s, int *i)
-{
-	if (new_parser(head, parser_node_new(EXIT_STATUS, (s), 2)) == 0)
-		return (0);
-	*i += 2;
-	return (1);
-}
-
-int its_pipe(t_parser **head, char *s, int *i)
-{
-	if (new_parser(head, parser_node_new(PIPE, (s), 1)) == 0)
-		return (0);
-	*i += 1;
-	return (1);
-}
-
-int	its_command(t_parser **head, char *s, int *i)
-{
-	int x;
-	t_parser *new;
-
-	x = 0;
-	while (s[x] && s[x] != ' ' && s[x] != '\t' && s[x] != '|' && s[x] != '<'
-		&& s[x] != '>' && s[x] != '\'' && s[x] != '"')
-		x++;
-	if (get_last_parser(*head) && (get_last_parser(*head)->type == CMD
-			|| get_last_parser(*head)->type == CMD_ARG))
-		new = parser_node_new(CMD_ARG, (s), x);
-	else if (get_last_parser(*head) && (get_last_parser(*head)->type == REDIR_OUTPUT
-			|| get_last_parser(*head)->type == REDIR_OUTPUT_APP || get_last_parser(*head)->type == REDIR_INPUT))
-		new = parser_node_new(FILENAME, (s), x);
-	else if (get_last_parser(*head) && get_last_parser(*head)->type == DELIMITER)
-		new = parser_node_new(IS_DELIMITER, (s), x);
-	else
-		new = parser_node_new(CMD, (s), x);
-	if (new == 0)
-		return (0);
-	new_parser(head, new);
-	*i += x;
-	return (1);
-}
-
-int its_redirection_output(t_parser **head, char *s, int *i)
-{
-	int x;
-	t_parser *new;
+	int			x;
+	t_parser	*new;
 
 	if (s[1] == '>')
 	{
@@ -210,7 +44,7 @@ int its_redirection_output(t_parser **head, char *s, int *i)
 
 int	its_redirection_input(t_parser **head, char *s, int *i)
 {
-	int x;
+	int		x;
 
 	x = 1;
 	if (new_parser(head, parser_node_new(REDIR_INPUT, (s), x)) == 0)
@@ -243,8 +77,8 @@ int	check_special_char(t_parser **head, char *s, int *i)
 
 t_parser	*parsing(char *s)
 {
-	int	i;
-	t_parser *head;
+	int			i;
+	t_parser	*head;
 
 	head = 0;
 	i = 0;
@@ -253,7 +87,7 @@ t_parser	*parsing(char *s)
 		if (s[i] == ' ' || s[i] == '\t')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (check_special_char(&head, (s + i), &i) == 0)
 		{
@@ -263,7 +97,6 @@ t_parser	*parsing(char *s)
 	}
 	return (head);
 }
-
 
 // int main(void)
 // {
