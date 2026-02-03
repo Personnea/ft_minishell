@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:48:39 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/30 15:45:05 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 02:33:17 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,12 @@ void	parser_clear_one(t_parser *node)
 		node->next->prev = node->prev;
 	free(node->s);
 	free(node);
+}
+
+int	new_parser(t_parser **head, t_parser *new_node)
+{
+	if (!new_node)
+		return (0);
+	parser_add_back(head, new_node);
+	return (1);
 }

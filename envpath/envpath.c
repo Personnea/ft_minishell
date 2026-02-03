@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:31:45 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/29 16:05:39 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 01:39:24 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	new_envpath(t_envpath **head, char *index, char *value)
 	return (1);
 }
 
-int create_envpath_list(t_envpath **envpath, char **envp)
+int	create_envpath_list(t_envpath **envpath, char **envp)
 {
 	int		i;
 	char	**array;
-	int 	j;
+	int		j;
 
 	i = 0;
 	while (envp[i])

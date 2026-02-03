@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   program.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 17:42:43 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 19:36:57 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/02 20:33:54 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 
 typedef struct s_program
 {
-	t_parser    **parsed;
+	t_parser	**parsed;
 	t_envpath	**envpath;
 	int			saved_stdin;
 	int			saved_stdout;
 	char		*here_doc_tempfile;
 	int			last_exit_status;
-	char        **envp;
+	char		**envp;
 }	t_program;
 
 #endif

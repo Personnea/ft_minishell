@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:07 by abarthes          #+#    #+#             */
-/*   Updated: 2026/01/30 15:48:06 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 02:39:06 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,35 @@
 
 typedef struct s_parser
 {
-	lexer		type;
-	char		*s;
+	t_lexer			type;
+	char			*s;
 	struct s_parser	*next;
 	struct s_parser	*prev;
-} t_parser;
+}	t_parser;
 
+//				---Operations---			//
+int			parser_clear(t_parser **lst);
+void		parser_add_back(t_parser **lst, t_parser *new);
+t_parser	*parser_node_new(t_lexer type, char *s, int x);
+int			its_env_var(t_parser **head, char *s, int *i);
+
+//				---check_its---				//
+int			its_d_quote(t_parser **head, char *s, int *i);
+int			its_s_quote(t_parser **head, char *s, int *i);
+int			its_exit_status(t_parser **head, char *s, int *i);
+int			its_pipe(t_parser **head, char *s, int *i);
+int			its_command(t_parser **head, char *s, int *i);
+
+//				---Utils---					//
+int			new_parser(t_parser **head, t_parser *new_node);
 
 t_parser	*parsing(char *s);
 
-int 		parser_clear(t_parser **lst);
+int			parser_clear(t_parser **lst);
 t_parser	*get_first_parser(t_parser *lst);
 t_parser	*get_last_parser(t_parser *lst);
 void		parser_clear_one(t_parser *node);
 
 int			sanitize(t_parser **head);
-
 
 #endif

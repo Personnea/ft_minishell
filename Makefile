@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+         #
+#    By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/02/02 18:45:49 by abarthes         ###   ########.fr        #
+#    Updated: 2026/02/03 02:36:19 by emaigne          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,15 @@ MAKEFLAGS += --no-print-directory
 CC      = cc
 CFLAGS  = -Wall -Wextra -Werror -g
 
-SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c buildins/buildins.c \
-		envpath/envpath.c envpath/envp_utils.c parser/utils.c expand/expand.c \
+SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c \
+		parser/parser_check_its.c parser/parser_list_operations.c buildins/buildins.c \
+		buildins/buildin_exit.c buildins/buildin_envpath.c \
+		envpath/envpath.c envpath/envp_utils.c parser/utils.c \
+		envpath/envp_operations.c \
+		expand/expand.c expand/expand_plain_text.c expand/expand_d_quote.c \
 		signals/signals.c files_handler/fhandler.c here_doc/here_doc.c \
 		execve/execve.c execve/utils.c execve/find_command.c execve/execve_piped.c \
-		execve/parse_command.c
+		execve/parse_command.c execve/execve_checks.c 
 
 OBJ = $(SRC:.c=.o)
 

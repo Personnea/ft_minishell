@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 17:03:53 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 13:28:00 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/03 02:40:29 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 extern volatile sig_atomic_t g_signal;
 
-void sigint_handler(int signal)
+void	sigint_handler(int signal)
 {
 	(void)signal;
 	if (signal == SIGINT)
