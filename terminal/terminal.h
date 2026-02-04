@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:34 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/04 02:34:37 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/04 03:22:02 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,10 @@
 
 //					---DEBUG---				//
 void		print_debug(t_program *program);
+
+//					---Handlers---			//
+void		handle_redirections(t_program *program);
+void		handle_expansions(t_program *program);
+void		execute_and_restore(t_program *program);
 
 #endif

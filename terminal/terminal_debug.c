@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 02:31:09 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/04 02:51:06 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/04 02:54:25 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_debug(t_program *program)
 	t_parser	*temp;
 	char		*str;
 
-	if (IS_DEBUG)
+	if (IS_DEBUG == 1)
 	{
 		if (state == 0)
 			state = 1;

@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 13:30:51 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 02:20:36 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/04 04:24:18 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ int	doing_here_doc_util(t_parser *lineread)
 
 int	doing_here_doc(t_parser **lineread)
 {
-	t_parser	*temp = *lineread;
+	t_parser	*temp;
 
+	temp = *lineread;
 	while (temp)
 	{
 		if (temp->type == DELIMITER)

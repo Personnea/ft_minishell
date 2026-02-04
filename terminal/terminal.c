@@ -6,16 +6,17 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/04 02:51:29 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/04 04:22:49 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
 #include "program.h"
 
-volatile sig_atomic_t g_signal;
+volatile sig_atomic_t	g_signal;
 
 //handle the exit cleanly, this is what happens when CTRL + D for example
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -48,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		if (!line)
-			break ; //handle the exit cleanly, this is what happens when CTRL + D
+			break ;
 		if (line && *line)
 		{
 			add_history(line);
@@ -78,5 +79,88 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 	}
+	return (0);
+}
+*/
+
+int	handle_sigint(char *line)
+{
+	if (g_signal == SIGINT)
+	{
+		g_signal = 0;
+		if (line)
+			free(line);
+		return (1);
+	}
+	return (0);
+}
+
+int	init_program(t_program **program, char **envp)
+{
+	*program = malloc(sizeof(t_program));
+	if (!*program)
+		return (0);
+	(*program)->parsed = malloc(sizeof(t_parser *));
+	if (!(*program)->parsed)
+		return (0);
+	(*program)->envpath = malloc(sizeof(t_envpath *));
+	if (!(*program)->envpath)
+		return (0);
+	*(*program)->envpath = NULL;
+	(*program)->envp = envp;
+	if (create_envpath_list((*program)->envpath, envp) == 0)
+		return (0);
+	return (1);
+}
+
+int	process_parsing_and_sanitize(t_program *program, char *line)
+{
+	*program->parsed = parsing(line);
+	if (!*program->parsed || !sanitize(program->parsed))
+	{
+		printf("syntax error\n");
+		return (0);
+	}
+	return (1);
+}
+
+void	main_loop(t_program *program)
+{
+	char	*line;
+
+	while (1)
+	{
+		set_signal_action();
+		line = readline("$miniswag> ");
+		if (handle_sigint(line))
+			continue ;
+		if (!line)
+			break ;
+		if (line && *line)
+		{
+			add_history(line);
+			if (!process_parsing_and_sanitize(program, line))
+			{
+				free(line);
+				continue ;
+			}
+			free(line);
+			handle_expansions(program);
+			handle_redirections(program);
+			execute_and_restore(program);
+		}
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_program	*program;
+
+	(void)argc;
+	(void)argv;
+	program = NULL;
+	if (!init_program(&program, envp))
+		buildin_exit(program);
+	main_loop(program);
 	return (0);
 }
