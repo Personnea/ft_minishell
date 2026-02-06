@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   program.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 17:42:43 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/04 02:32:50 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 16:33:10 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../parser/parser.h"
 # include "../envpath/envpath.h"
+# include <termios.h>
 
 typedef struct s_program
 {
@@ -25,6 +26,7 @@ typedef struct s_program
 	char		*here_doc_tempfile;
 	int			last_exit_status;
 	char		**envp;
+	struct		termios g_term_orig;
 }	t_program;
 
 #endif

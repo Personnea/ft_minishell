@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 13:30:51 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/06 15:42:58 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:41:05 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	doing_here_doc_util(t_parser *lineread)
 	int		fd;
 	char	*line;
 
-	fd = open(".here_doc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open(HERE_DOC_TMPFILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (perror("here_doc: open"), -1);
 	while (1)

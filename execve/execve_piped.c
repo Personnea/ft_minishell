@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_piped.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 17:16:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/06 14:42:06 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:57:00 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	get_path_for_exec(t_commands *cmd, t_program *program)
 	else
 	{
 		path = get_env_value_by_key(program->envpath, "PATH");
-		do_command_piped(cmd, path, program->envp);
+		do_command_piped(program, cmd, path, program->envp);
 	}
 }
 
@@ -102,11 +102,9 @@ void	first_exec(t_program *program, t_commands *cmd)
 
 int	execve_with_pipe(t_program *program)
 {
-	int			status;
 	t_commands	*commands;
 
 	commands = NULL;
-	status = 0;
 	parse_commands_with_pipe(&commands, *(program->parsed));
 	first_exec(program, commands);
 	commands = commands->next;
@@ -116,7 +114,5 @@ int	execve_with_pipe(t_program *program)
 		commands = commands->next;
 	}
 	last_exec(program, commands);
-	waitpid(-1, &status, 0);
-	program->last_exit_status = status;
-	return (status);
+	return (0);
 }

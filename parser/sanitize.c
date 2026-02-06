@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sanitize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:53:12 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 02:23:17 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 17:45:58 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	sanitize(t_parser **head)
 	{
 		if (temp->type == PIPE && (!temp->next || !temp->prev
 				|| temp == *head || !(temp->next->type == CMD)
-				|| !(temp->prev->type == CMD || temp->prev->type == CMD_ARG)))
+				|| !(temp->prev->type == CMD || temp->prev->type == CMD_ARG || temp->prev->type == IS_DELIMITER)))
 			return (0);
 		if (temp->type == REDIR_INPUT && (!temp->next
 				|| !(temp->next->type == FILENAME)))

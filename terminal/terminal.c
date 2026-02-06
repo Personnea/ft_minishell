@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/06 16:19:10 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:19:13 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	init_program(t_program **program, char **envp)
 	(*program)->envp = envp;
 	if (create_envpath_list((*program)->envpath, envp) == 0)
 		return (0);
+	new_envpath((*program)->envpath, "OLDPWD", "");
 	return (1);
 }
 
@@ -161,6 +162,7 @@ int	main(int argc, char **argv, char **envp)
 	program = NULL;
 	if (!init_program(&program, envp))
 		buildin_exit(program);
+	tcgetattr(STDIN_FILENO, &program->g_term_orig);
 	main_loop(program);
 	return (0);
 }

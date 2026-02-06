@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 21:25:10 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 17:41:05 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ typedef struct s_commands
 }	t_commands;
 
 //				---Utils---				//
-void	do_command_piped(t_commands *cmd, char *path, char **envp);
+void	do_command_piped(t_program *program, t_commands *cmd, char *path, char **envp);
 void	handle_the_child(int pipe_fd[2], t_program *program, t_commands *cmd);
 void	clearmatrix(char **tab);
-void	do_command(t_parser *cmd, char *path, char **envp);
+void	do_command(t_program *program, t_parser *cmd, char *path, char **envp);
 
 //				---Children---			//
 void	handle_middle_child(t_program *program,
@@ -42,10 +42,11 @@ void	handle_middle_child(t_program *program,
 int		there_is_at_least_one_pipe(t_parser *lineread);
 int		count_cmd_args(t_parser *cmd);
 int		is_a_buildin(char *cmd);
+t_parser	*get_last_input_node(t_parser *parsed, t_lexer *input_type);
 
 char	*find_command(char *command, char *pathline);
 int		execve_handler(t_program *program);
-void	do_command(t_parser *cmd, char *path, char **envp);
+void	do_command(t_program *program, t_parser *cmd, char *path, char **envp);
 int		execve_with_pipe(t_program *program);
 void	parse_commands_with_pipe(t_commands **commands, t_parser *parsed);
 

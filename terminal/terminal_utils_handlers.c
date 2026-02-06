@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_utils_handlers.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 03:17:52 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/04 03:25:17 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 17:33:07 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	handle_expansions(t_program *program)
 
 void	execute_and_restore(t_program *program)
 {
-	buildins(program->parsed, *program->envpath, program);
+	if (!there_is_at_least_one_pipe(*(program->parsed)))
+		buildins(program->parsed, *program->envpath, program);
 	execve_handler(program);
 	rl_replace_line("", 0);
 	rl_redisplay();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_checks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 01:48:20 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/03 01:52:03 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 17:41:05 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,29 @@ int	is_a_buildin(char *cmd)
 	else if (ft_strncmp(cmd, "exit", 4) == 0 && ft_strlen(cmd) == 4)
 		return (1);
 	return (0);
+}
+
+t_parser	*get_last_input_node(t_parser *parsed, t_lexer *input_type)
+{
+	t_parser	*temp;
+	t_parser	*last;
+
+	*input_type = -1;
+	last = NULL;
+	temp = parsed;
+	while (temp)
+	{
+		if (temp->type == REDIR_INPUT && temp->next)
+		{
+			last = temp->next;
+			*input_type = REDIR_INPUT;
+		}
+		else if (temp->type == DELIMITER)
+		{
+			last = temp->next;
+			*input_type = DELIMITER;
+		}
+		temp = temp->next;
+	}
+	return (last);
 }

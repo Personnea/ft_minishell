@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_operations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 01:25:10 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/04 05:57:10 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 18:57:36 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ int	print_envpath_list(t_envpath *envpath, int is_export)
 	{
 		if (temp->shown)
 		{
-			if (is_export)
+			if (is_export && temp->value)
 				printf("export %s=\"%s\"\n", temp->index, temp->value);
-			else
+			else if (is_export && !temp->value)
+				printf("export %s\n", temp->index);
+			else if (!is_export && temp->value)
 				printf("%s=%s\n", temp->index, temp->value);
 		}
 		temp = temp->next;

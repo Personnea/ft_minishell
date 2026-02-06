@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 12:21:35 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 01:39:04 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 18:08:42 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,28 @@ void	envp_delone(t_envpath *node)
 	free(node->index);
 	free(node->value);
 	free(node);
+}
+
+void	update_pwd_and_oldpwd(t_envpath *envpath)
+{
+	char	*pwd;
+	char	*oldpwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (perror("getcwd"), (void)0);
+	oldpwd = get_env_value_by_key(&envpath, "PWD");
+	if (oldpwd)
+	{
+		if (new_envpath(&envpath, "OLDPWD", oldpwd) == 0)
+			return (free(pwd), (void)0);
+	}
+	else
+	{
+		if (new_envpath(&envpath, "OLDPWD", "") == 0)
+			return (free(pwd), (void)0);
+	}
+	if (new_envpath(&envpath, "PWD", pwd) == 0)
+		return ;
+	free(pwd);
 }

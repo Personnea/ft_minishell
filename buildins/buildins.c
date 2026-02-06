@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:26 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 13:59:25 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:06:14 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ int	buildin_cd(t_parser *cmd, t_envpath *envpath)
 	{
 		if (chdir(home) != 0)
 			return (perror("cd"), 1);
+		update_pwd_and_oldpwd(envpath);
 		return (0);
 	}
 	else
 	{
 		if (chdir(cmd->next->s) != 0)
 			return (perror("cd"), 1);
+		update_pwd_and_oldpwd(envpath);
 		return (0);
 	}
 }

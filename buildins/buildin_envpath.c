@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_envpath.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 23:15:48 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/03 01:22:39 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/06 18:56:03 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,9 @@ void static	free_array_of_double(char **array)
 
 int	static	second_if_check(t_parser *cmd)
 {
-	if ((!cmd->next || cmd->next->type != CMD_ARG
-			|| !ft_strchr(cmd->next->s, '=') || cmd->next->s[0] == '=')
-		|| !ft_isalpha(cmd->next->s[0]))
+	if (cmd->next->s[0] == '=' || !ft_isalpha(cmd->next->s[0]))
 		return (1);
 	return (0);
-}
-
-int	static	third_if_check(t_parser *cmd)
-{
-	return (cmd->next->next && (cmd->next->next->type == CMD_ARG
-			|| cmd->next->next->type == CMD));
 }
 
 int	buildin_export(t_parser *cmd, t_envpath *envpath)
@@ -42,25 +34,29 @@ int	buildin_export(t_parser *cmd, t_envpath *envpath)
 
 	if (!cmd->next)
 		return (print_envpath_list_sorted(envpath));
-	if (second_if_check(cmd))
-		return (1);
-	if (third_if_check(cmd))
+	while (cmd->next && (cmd->next->type == CMD_ARG || cmd->next->type == CMD))
 	{
-		key = ft_strtrim(cmd->next->s, "=");
-		value = cmd->next->next->s;
+		if (second_if_check(cmd))
+			printf("export: %s: not a valid identifier\n", cmd->next->s);
+		else
+		{
+			array = ft_split(cmd->next->s, '=');
+			if (!array)
+				return (1);
+			key = ft_strdup(array[0]);
+			if (!array[1] && ft_strchr(cmd->next->s, '='))
+				value = ft_strdup("");
+			else if (!array[1] && !ft_strchr(cmd->next->s, '='))
+				value = 0;
+			else
+				value = ft_strdup(array[1]);
+			free_array_of_double(array);
+			if (!new_envpath(&envpath, key, value))
+				return (1);
+		}
+		cmd = cmd->next;
 	}
-	else
-	{
-		array = ft_split(cmd->next->s, '=');
-		printf("Split result: %s, %s\n", array[0], array[1]);
-		if (!array || !array[0] || !array[1])
-			return (1);
-		key = ft_strdup(array[0]);
-		value = ft_strdup(array[1]);
-		free_array_of_double(array);
-	}
-	printf("Exporting key: %s with value: %s\n", key, value);
-	return (new_envpath(&envpath, key, value));
+	return (0);
 }
 
 int	buildin_unset(t_parser *cmd, t_envpath *envpath)

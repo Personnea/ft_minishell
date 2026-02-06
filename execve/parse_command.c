@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:12:28 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/02 19:32:09 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:53:59 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	parse_commands_with_pipe(t_commands **commands, t_parser *parsed)
 	temp = parsed;
 	while (temp)
 	{
-		if (temp->type == CMD)
+		if (temp->type == CMD || temp->type == DELIMITER)
 		{
 			new_cmd = commands_node_new(temp);
 			if (!new_cmd)

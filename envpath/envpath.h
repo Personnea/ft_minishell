@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:30:47 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 13:49:31 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:09:50 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ int			print_envpath_list(t_envpath *envpath, int is_export);
 int			print_envpath_list_sorted(t_envpath *envpath);
 void		envp_delone(t_envpath *node);
 void		del_env_node_by_key(t_envpath **head, char *key);
+void		update_pwd_and_oldpwd(t_envpath *envpath);
 
 #endif
