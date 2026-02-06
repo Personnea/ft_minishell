@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fhandler.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 12:56:03 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/04 05:52:50 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/02 16:04:49 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "../envpath/envpath.h"
 # include <fcntl.h>
 
-//			---Utils---				//
-void		put_minishell_into_string(char *dest);
 
 int			file_handler(t_parser **parsed);
 t_parser	*get_last_output_file(t_parser **parsed);

@@ -39,9 +39,8 @@ int	doing_here_doc_util(t_parser *lineread)
 
 int	doing_here_doc(t_parser **lineread)
 {
-	t_parser	*temp;
+	t_parser	*temp = *lineread;
 
-	temp = *lineread;
 	while (temp)
 	{
 		if (temp->type == DELIMITER)
