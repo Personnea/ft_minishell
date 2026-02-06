@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 13:44:13 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 14:19:43 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,8 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_program	*program;
 
-	argc = 0;
-	argv = NULL;
+	(void) argc;
+	(void) argv;
 	program = malloc(sizeof(t_program));
 	if (!program)
 		buildin_exit(program);
@@ -237,6 +237,7 @@ int	main(int argc, char **argv, char **envp)
 				}
 				send_to_expand(program->parsed, *(program->envpath), program);
 				temp = *(program->parsed);
+				printf("After expansion:\n");
 				while (temp)
 				{
 					if (temp->type == CMD)
@@ -275,7 +276,8 @@ int	main(int argc, char **argv, char **envp)
 				file_handler(program->parsed);
 				program->here_doc_tempfile = ".here_doc_tempfile";
 				doing_here_doc(program->parsed);
-				buildins(program->parsed, *(program->envpath), program);
+				if (!there_is_at_least_one_pipe(*(program->parsed)))
+					buildins(program->parsed, *(program->envpath), program);
 				execve_handler(program);
 				rl_replace_line("", 0);
 				rl_redisplay();

@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 17:16:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 20:04:30 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/06 14:42:06 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	get_path_for_exec(t_commands *cmd, t_program *program)
 	char	*path;
 
 	if (is_a_buildin(cmd->cmd->s))
-		check_buildin(cmd->cmd, *program->envpath, program);
+		exit(check_buildin(cmd->cmd, *program->envpath, program));
 	else
 	{
 		path = get_env_value_by_key(program->envpath, "PATH");
@@ -34,7 +34,7 @@ void	last_exec(t_program *program, t_commands *cmd)
 	pid = fork();
 	if (pid == -1)
 		return (perror("pid"), exit(1));
-	if (pid)
+	if (pid != 0)
 		return ;
 	file = get_last_output_file(program->parsed);
 	if (!file)
@@ -77,7 +77,7 @@ void	middle_exec(t_program *program, t_commands *cmd)
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
 		if (is_a_buildin(cmd->cmd->s))
-			check_buildin(cmd->cmd, *program->envpath, program);
+			exit(check_buildin(cmd->cmd, *program->envpath, program));
 		else
 		{
 			path = get_env_value_by_key(program->envpath, "PATH");
