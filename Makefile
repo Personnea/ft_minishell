@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+         #
+#    By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/02/06 12:33:39 by abarthes         ###   ########.fr        #
+#    Updated: 2026/02/06 22:39:38 by emaigne          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,13 @@ CFLAGS  = -Wall -Wextra -Werror -g
 # Detect Homebrew readline prefix (empty if not installed)
 READLINE_PREFIX := $(shell brew --prefix readline 2>/dev/null || true)
 
-ifeq ($(READLINE_PREFIX),)
-READLINE_INCLUDES :=
-READLINE_LIBS := -lreadline -ledit
-else
+# ifeq ($(READLINE_PREFIX),)
+# READLINE_INCLUDES :=
+# READLINE_LIBS := -lreadline -ledit
+# else
 READLINE_INCLUDES := -I$(READLINE_PREFIX)/include
 READLINE_LIBS := -L$(READLINE_PREFIX)/lib -lreadline -lcurses
-endif
+# endif
 
 SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c \
 		parser/parser_check_its.c parser/parser_list_operations.c buildins/buildins.c \
@@ -47,7 +47,7 @@ LIBFT= libft/libft.a
 
 all: $(NAME) $(LIBFT)
 
-debug: CFLAGS += -D IS_DEBUG=1
+debug: CFLAGS += -g3 -D IS_DEBUG=1
 
 debug: all
 
@@ -76,4 +76,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug
