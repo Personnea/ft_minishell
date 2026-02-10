@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:31:45 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/09 13:03:49 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/10 09:08:23 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,18 @@ t_envpath	*envp_node_new(char *index, char *value)
 
 	new = ft_calloc(1, sizeof(t_envpath));
 	if (!new)
-		return (0);
+		return (NULL);
 	new->index = ft_strdup(index);
+	if (!new->index)
+		return (free(new), NULL);
 	if (!value)
 		new->value = NULL;
 	else
+	{
 		new->value = ft_strdup(value);
+		if (!new->value)
+			return (free(new->index), free(new), NULL);
+	}
 	new->shown = 1;
 	new->prev = 0;
 	new->next = 0;
@@ -86,6 +92,8 @@ int	create_envpath_list(t_envpath **envpath, char **envp)
 		if (ft_strchr(envp[i], '='))
 		{
 			array = ft_split(envp[i], '=');
+			if (!array)
+				return (0);
 			if (new_envpath(envpath, array[0], array[1]) == 0)
 				return (0);
 			if (array)
