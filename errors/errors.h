@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fhandler.h                                         :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/31 12:56:03 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 18:03:25 by abarthes         ###   ########.fr       */
+/*   Created: 2026/02/10 18:00:43 by abarthes          #+#    #+#             */
+/*   Updated: 2026/02/10 18:28:53 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FHANDLER_H
-# define FHANDLER_H
+#ifndef ERRORS_H
+# define ERRORS_H
 
-# include "../parser/parser.h"
-# include "../envpath/envpath.h"
-# include <fcntl.h>
-# include "../errors/errors.h"
+# include "../libft/libft.h"
+# include <stdio.h>
 
-//			---Utils---				//
-void		put_minishell_into_string(char *dest);
-
-int			file_handler(t_parser **parsed);
-t_parser	*get_last_output_file(t_parser **parsed);
-t_parser	*get_last_input_file(t_parser **parsed);
-
+void	error_message_file_not_found(char *filename);
+void	error_near_newline();
 #endif

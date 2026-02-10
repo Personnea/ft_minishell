@@ -6,12 +6,13 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:44:15 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/06 17:41:05 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:36:53 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve.h"
 #include "../here_doc/here_doc.h"
+#include "../signals/signals.h"
 
 t_parser	*get_first_cmd_no_buildins(t_parser *cmd)
 {
@@ -53,12 +54,7 @@ int	make_redirection(t_parser *parsed)
 	{
 		fd = open(last_file_output->s, O_WRONLY);
 		if (fd < 0)
-		{
-			char src[1024] = "minishell: ";
-			ft_strlcat(src, last_file_output->s, 1010);
-			perror(src);
-			return (1);
-		}
+			return (error_message_file_not_found(last_file_output->s), 1);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
@@ -66,12 +62,7 @@ int	make_redirection(t_parser *parsed)
 	{
 		fd = open(last_file_input->s, O_RDONLY);
 		if (fd < 0)
-		{
-			char src[1024] = "minishell: ";
-			ft_strlcat(src, last_file_input->s, 1010);
-			perror(src);
-			return (1);
-		}
+			return (error_message_file_not_found(last_file_input->s), 1);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -101,12 +92,13 @@ int	execve_without_pipe(t_program *program, t_parser **parsed, t_envpath *envpat
 	return (0);
 }
 
-// int	execve_handler(t_parser **lineread, t_envpath *envpath, char **envp)
 int	execve_handler(t_program *program)
 {
 	int	status;
 	int	last_status;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (there_is_at_least_one_pipe(*(program->parsed)))
 	{
 		if (execve_with_pipe(program))
@@ -119,6 +111,7 @@ int	execve_handler(t_program *program)
 			return (1);
 	}
 	last_status = 0;
+	set_signal_action();
 	while (waitpid(-1, &status, 0) > 0)
 		last_status = status;
 	tcsetattr(STDIN_FILENO, TCSANOW, &program->g_term_orig);

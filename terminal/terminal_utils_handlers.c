@@ -6,19 +6,21 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 03:17:52 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/10 15:59:43 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:57:00 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "terminal.h"
 
-void	handle_redirections(t_program *program)
+int	handle_redirections(t_program *program)
 {
 	program->saved_stdin = dup(STDIN_FILENO);
 	program->saved_stdout = dup(STDOUT_FILENO);
-	file_handler(program->parsed);
+	if (file_handler(program->parsed))
+		return (1);
 	program->here_doc_tempfile = HERE_DOC_TMPFILE;
 	doing_here_doc(program->parsed);
+	return (0);
 }
 
 void	handle_expansions(t_program *program)

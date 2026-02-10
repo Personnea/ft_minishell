@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 16:02:41 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:36:02 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../envpath/envpath.h"
 # include "../files_handler/fhandler.h"
 # include "../terminal/program.h"
+# include "../errors/errors.h"
 # include <sys/wait.h>
 # include "../buildins/buildins.h"
 

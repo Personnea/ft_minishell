@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:07 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 02:39:06 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:28:31 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "../lexer/lexer.h"
 # include "../libft/libft.h"
+# include <stdio.h>
+# include "../errors/errors.h"
 
 typedef struct s_parser
 {

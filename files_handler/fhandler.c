@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fhandler.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 12:56:56 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/04 05:56:14 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:02:58 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	check_exist_files(t_parser **parsed)
 {
 	t_parser	*temp;
 	int			fd;
-	char		src[1024];
 
 	temp = *parsed;
 	while (temp)
@@ -90,9 +89,7 @@ int	check_exist_files(t_parser **parsed)
 			fd = open(temp->next->s, O_RDONLY);
 			if (fd < 0)
 			{
-				ft_strlcat(src, "minishell: ", 1024);
-				ft_strlcat(src, temp->next->s, 1010);
-				perror(src);
+				error_message_file_not_found(temp->next->s);
 				return (1);
 			}
 			close(fd);
@@ -104,7 +101,7 @@ int	check_exist_files(t_parser **parsed)
 
 int	file_handler(t_parser **parsed)
 {
-	if (check_exist_files(parsed) != 0)
+	if (check_exist_files(parsed))
 		return (1);
 	if (create_files(parsed) != 0)
 		return (1);

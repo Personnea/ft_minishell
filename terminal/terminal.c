@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 13:55:19 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/10 18:17:02 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,9 @@ int	init_program(t_program **program, char **envp)
 int	process_parsing_and_sanitize(t_program *program, char *line)
 {
 	*program->parsed = parsing(line);
-	if (!*program->parsed || !sanitize(program->parsed))
+	if (!program->parsed)
+		return (0);
+	if (!sanitize(program->parsed))
 	{
 		printf("syntax error\n");
 		return (0);
@@ -134,8 +136,8 @@ void	main_loop(t_program *program)
 	{
 		set_signal_action();
 		line = readline("$miniswag> ");
-		if (handle_sigint(line))
-			continue ;
+		// if (handle_sigint(line))
+		// 	continue ;
 		if (!line)
 			break ;
 		if (line && *line)
@@ -148,7 +150,8 @@ void	main_loop(t_program *program)
 			}
 			free(line);
 			handle_expansions(program);
-			handle_redirections(program);
+			if (handle_redirections(program))
+				continue ;
 			execute_and_restore(program);
 		}
 	}
