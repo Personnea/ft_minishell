@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_piped.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 17:16:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 13:17:49 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 17:31:54 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,14 @@ int	execve_with_pipe(t_program *program)
 
 	commands = NULL;
 	parse_commands_with_pipe(&commands, *(program->parsed));
+	while (commands)
+	{
+		ft_printf_fd(1, "command: %s\n", commands->cmd->s);
+		ft_printf_fd(1, "infile (if any): %s\n", commands->infile);
+		ft_printf_fd(1, "outfile (if any): %s\n", commands->outfile);
+		commands = commands->next;
+	}
+	return (0);
 	first_exec(program, commands);
 	commands = commands->next;
 	while (commands && commands->next)

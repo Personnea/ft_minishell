@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 18:36:02 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 17:53:33 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ typedef struct s_commands
 {
 	t_parser			*cmd;
 	char				**args;
+	char				*infile;
+	char				*outfile;
+	t_lexer				redir_type;
 	struct s_commands	*next;
 }	t_commands;
 

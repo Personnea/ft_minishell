@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:12:28 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/06 17:53:59 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 17:53:43 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	commands_add_back(t_commands **lst, t_commands *new)
 	}
 }
 
+//a proteger prcq si malloc de args[j] fail on ne protege pas ni ne free pas
 char	**create_cmd_args(t_parser *cmd)
 {
 	t_parser	*temp;
@@ -56,15 +57,46 @@ char	**create_cmd_args(t_parser *cmd)
 	return (args);
 }
 
+//does not cover for tricky case such as double input files and redirection in the same command
+int	check_for_redirections(t_parser *cmd, t_commands *tofill)
+{
+	t_parser	*temp;
+
+	temp = cmd;
+	while (temp && temp->prev && temp->prev->type != PIPE)
+		temp = temp->prev;
+	while (temp && temp->type != PIPE)
+	{
+		if (temp->type == REDIR_INPUT && temp->next)
+		{
+			tofill->infile = ft_strdup(temp->next->s);
+			if (!tofill->infile)
+				return (1);
+		}
+		if ((temp->type == REDIR_OUTPUT
+				|| temp->type == REDIR_OUTPUT_APP) && temp->next)
+		{
+			tofill->outfile = ft_strdup(temp->next->s);
+			if (!tofill->outfile)
+				return (1);
+			tofill->redir_type = temp->type;
+		}
+		temp = temp->next;
+	}
+	return (0);
+}
+
+
 t_commands	*commands_node_new(t_parser *cmd)
 {
 	t_commands	*new;
 
-	new = malloc(sizeof(t_commands));
+	new = ft_calloc(1, sizeof(t_commands));
 	if (!new)
 		return (0);
 	new->cmd = cmd;
 	new->args = create_cmd_args(cmd);
+	check_for_redirections(cmd, new);
 	new->next = NULL;
 	return (new);
 }
