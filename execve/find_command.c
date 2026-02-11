@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:50:18 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 08:37:52 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/11 10:17:54 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ char	*test_all_paths(char *command, char *pathline)
 
 	i = 0;
 	if (pathline == NULL)
+	{
+		ft_printf_fd(1, "miniswag: %s: No such file or directory\n",
+			command + 1);
 		return (NULL);
+	}
 	possiblepaths = ft_split(pathline, ':');
 	while (possiblepaths && possiblepaths[i])
 	{
