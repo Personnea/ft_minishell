@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:50:18 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 14:56:46 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/11 08:37:52 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*test_all_paths(char *command, char *pathline)
 		i++;
 	}
 	clearmatrix(possiblepaths);
-	perror(command + 1);
+	ft_printf_fd(2, "%s : command not found\n", command + 1);
 	return (NULL);
 }
 
@@ -74,7 +74,8 @@ char	*find_command(char *command, char *pathline)
 	{
 		if (access(command, X_OK) == 0)
 			return (command);
-		perror(NULL);
+		ft_printf_fd(2, "miniswag: %s: %s\n", command,
+			"No such file or directory");
 		return (NULL);
 	}
 	pathcommand = ft_strjoin("/", command);
