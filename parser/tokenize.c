@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:10 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 18:38:45 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:52:40 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,17 @@ t_parser	*parsing(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == ' ' || s[i] == '\t')
+		if (s[i] != ' ' && check_special_char(&head, (s + i), &i) == 0)
+			return (parser_clear(&head), NULL);
+		if (s[i] == ' ')
 		{
+			if (get_prev_echo(get_last_parser(head)))
+			{
+				if (new_parser(&head, parser_node_new(CMD_ARG, " ", 1)) == 0)
+					return (parser_clear(&head), NULL);
+			}
 			i++;
 			continue ;
-		}
-		if (check_special_char(&head, (s + i), &i) == 0)
-		{
-			parser_clear(&head);
-			return (0);
 		}
 	}
 	return (head);

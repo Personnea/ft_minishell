@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:07 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 18:28:31 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:32:52 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ t_parser	*get_last_parser(t_parser *lst);
 void		parser_clear_one(t_parser *node);
 
 int			sanitize(t_parser **head);
+t_parser	*get_prev_echo(t_parser *node);
 
 #endif

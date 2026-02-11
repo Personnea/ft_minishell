@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:19:35 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 14:17:09 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:41:44 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,16 @@ int	buildin_echo(t_parser *cmd, t_program *program)
 	if (!cmd->next)
 		return (printf("\n"), 0);
 	temp = cmd->next;
-	while (temp && temp->s && temp->s[0] == '-' && valid_argument_n(temp->s))
+	while (temp && temp->s && ((temp->s[0] == '-' && valid_argument_n(temp->s)) || temp->s[0] == ' '))
 	{
-		is_n = 1;
+		if (temp->s[0] != ' ')
+			is_n = 1;
 		temp = temp->next;
 	}
 	while (temp && (temp->type == CMD || temp->type == CMD_ARG))
 	{
 		printf("%s", temp->s);
 		temp = temp->next;
-		if (temp && (temp->type == CMD || temp->type == CMD_ARG))
-			printf(" ");
 	}
 	if (!is_n)
 		printf("\n");

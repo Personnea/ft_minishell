@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:48:39 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/03 02:33:17 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/11 16:05:51 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,22 @@ int	new_parser(t_parser **head, t_parser *new_node)
 		return (0);
 	parser_add_back(head, new_node);
 	return (1);
+}
+
+t_parser	*get_prev_echo(t_parser *node)
+{
+	t_parser	*temp;
+
+	temp = 0;
+	if (!node)
+		return (NULL);
+	while (node)
+	{
+		if (node->type != CMD && node->type != CMD_ARG && node->type != ENVVAR && node->type != EXIT_STATUS && node->type != DQUOTE && node->type != SQUOTE)
+			return (temp);
+		if (node->type == CMD && ft_strncmp(node->s, "echo", 4) == 0 && ft_strlen(node->s) == 4)
+			temp = node;
+		node = node->prev;
+	}
+	return (temp);
 }
