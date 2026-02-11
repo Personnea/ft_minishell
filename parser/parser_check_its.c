@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:24:30 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/11 13:13:21 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:20:41 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	its_command(t_parser **head, char *s, int *i)
 		&& s[x] != '>' && s[x] != '\'' && s[x] != '"')
 		x++;
 	if (get_last_parser(*head) && (get_last_parser(*head)->type == CMD
-			|| get_last_parser(*head)->type == CMD_ARG))
+			|| get_last_parser(*head)->type == CMD_ARG || get_last_parser(*head)->type == ENVVAR))
 		new = parser_node_new(CMD_ARG, (s), x);
 	if (get_last_parser(*head) && (get_last_parser(*head)->type == REDIR_OUTPUT
 			|| get_last_parser(*head)->type == REDIR_OUTPUT_APP

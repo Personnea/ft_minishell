@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:01:03 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 13:21:39 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:15:31 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,9 @@ void	error_near_newline()
 void	error_message_command_not_found(char *command)
 {
 	ft_printf_fd(2, "miniswag: %s: command not found\n", command);
+}
+
+void	error_near_pipe()
+{
+	ft_printf_fd(2, "miniswag: syntax error near unexpected token `|'\n");
 }

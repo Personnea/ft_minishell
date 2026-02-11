@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:53:12 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 18:32:08 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:28:24 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	sanitize(t_parser **head)
 	{
 		if (temp->type == PIPE && (!temp->next || !temp->prev
 				|| temp == *head || !(temp->next->type == CMD)
-				|| !(temp->prev->type == CMD || temp->prev->type == CMD_ARG 
-				|| temp->prev->type == IS_DELIMITER)))
-			return (0);
+				|| !(!(temp->prev->type == CMD || temp->prev->type == CMD_ARG) || !((temp->prev->type == ENVVAR || temp->prev->type == EXIT_STATUS) && temp->prev->prev && (temp->prev->prev->type == CMD || temp->prev->prev->type == CMD_ARG)))))
+			return (error_near_pipe() ,0);
 		if (temp->type == REDIR_INPUT && (!temp->next
 				|| !(temp->next->type == FILENAME)))
 			return (error_near_newline(), 0);

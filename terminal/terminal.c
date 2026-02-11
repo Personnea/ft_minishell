@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 13:13:10 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:10:28 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,7 @@ int	process_parsing_and_sanitize(t_program *program, char *line)
 	if (!program->parsed)
 		return (0);
 	if (!sanitize(program->parsed))
-	{
-		printf("syntax error\n");
 		return (0);
-	}
 	return (1);
 }
 

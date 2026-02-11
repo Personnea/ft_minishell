@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:11:25 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/11 13:10:36 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:31:04 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ int	expand_plain_text(t_parser *node, t_envpath *envpath)
 	new_str[indices[1]] = '\0';
 	free(node->s);
 	node->s = new_str;
+	if (node->prev && (node->prev->type == CMD || node->prev->type == CMD_ARG))
+		node->type = CMD_ARG;
+	else
+		node->type = CMD;
 	return (0);
 }
 

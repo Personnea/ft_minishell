@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:19:35 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 13:43:54 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:17:09 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	buildin_echo(t_parser *cmd, t_program *program)
 	{
 		printf("%s", temp->s);
 		temp = temp->next;
-		if (temp)
+		if (temp && (temp->type == CMD || temp->type == CMD_ARG))
 			printf(" ");
 	}
 	if (!is_n)
