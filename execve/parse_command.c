@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:12:28 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/11 17:53:43 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/11 18:02:49 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,35 @@ int	check_for_redirections(t_parser *cmd, t_commands *tofill)
 	return (0);
 }
 
+void	free_t_parser(t_parser *parser)
+{
+	t_parser	*next;
+
+	next = NULL;
+	if (!parser)
+		return ;
+	if (parser->next)
+		next = parser->next;
+	if (parser->s)
+		free(parser->s);
+	free(parser);
+	free_t_parser(next);
+}
+
+void free_t_command(t_commands *tofree)
+{
+	if (!tofree)
+		return ;
+	if (tofree->cmd)
+		free_t_parser(tofree->cmd);
+	if (tofree->args)
+		clearmatrix(tofree->args);
+	if (tofree->infile)
+		free(tofree->infile);
+	if (tofree->outfile)
+		free(tofree->outfile);
+	free(tofree);
+}
 
 t_commands	*commands_node_new(t_parser *cmd)
 {
@@ -96,7 +125,10 @@ t_commands	*commands_node_new(t_parser *cmd)
 		return (0);
 	new->cmd = cmd;
 	new->args = create_cmd_args(cmd);
-	check_for_redirections(cmd, new);
+	if (!new->args)
+		return (free_t_command(new), NULL);
+	if (check_for_redirections(cmd, new) == 1)
+		return (free_t_command(new), NULL);
 	new->next = NULL;
 	return (new);
 }
