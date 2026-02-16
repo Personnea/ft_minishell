@@ -6,17 +6,18 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:22:51 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 15:23:08 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:04:38 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 
 long	ft_strtol(const char *str)
 {
-	int		i;
-	long	result;
-	int		sign;
+	int			i;
+	long long	result;
+	int			sign;
 
 	if (!str || !*str)
 		return (0);
@@ -34,7 +35,7 @@ long	ft_strtol(const char *str)
 	while (str[i] && ft_isdigit(str[i]))
 	{
 		result = result * 10 + (str[i] - '0');
-		if ((result > 2147483647 && sign == 1) || (result > 2147483648 && sign == -1))
+		if ((result > LLONG_MAX && sign == 1) || (result > LLONG_MIN && sign == -1))
 			return (0);
 		i++;
 	}

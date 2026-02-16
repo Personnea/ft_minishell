@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:19:35 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/16 14:42:40 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:57:22 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	buildin_echo(t_parser *cmd, t_program *program)
 	if (!cmd->next)
 		return (printf("\n"), 0);
 	temp = cmd->next;
-	while (temp && temp->s && ((temp->s[0] == '-' && valid_argument_n(temp->s)) || temp->s[0] == ' '))
+	while (temp && temp->s && ((temp->s[0] == '-' && valid_argument_n(temp->s)) || (temp->s[0] == ' ' && ft_strlen(temp->s) == 1)))
 	{
 		if (temp->s[0] != ' ')
 			is_n = 1;
@@ -44,8 +44,8 @@ int	buildin_echo(t_parser *cmd, t_program *program)
 	}
 	while (temp && (temp->type == CMD || temp->type == CMD_ARG))
 	{
-		if (!(temp->prev && temp->prev->s && temp->prev->s[0] == ' ' && temp->s[0] == ' '))
-			printf("%s", temp->s);
+		if (!(temp->s[0] == ' ' && ft_strlen(temp->s) == 1))
+			printf("%s ", temp->s);
 		temp = temp->next;
 	}
 	if (!is_n)

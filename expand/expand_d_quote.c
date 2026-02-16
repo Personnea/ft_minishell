@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:16:39 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/16 16:57:18 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:27:39 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	handle_env_var(t_parser *node, t_envpath *envpath,
 
 void	set_node_type(t_parser *node)
 {
-	if (node->type == REDIR_INPUT || node->type == REDIR_OUTPUT || node->type == REDIR_OUTPUT_APP)
+	if (node->type == REDIR_INPUT || node->type == REDIR_OUTPUT || node->type == REDIR_OUTPUT_APP || node->type == PIPE || node->type == DELIMITER)
 		return ;
 	if (node->prev && (node->prev->type == REDIR_INPUT || node->prev->type == REDIR_OUTPUT || node->prev->type == REDIR_OUTPUT_APP))
 		node->type = FILENAME;

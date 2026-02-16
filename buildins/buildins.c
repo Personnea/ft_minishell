@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:26 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 17:53:33 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:51:49 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	buildins(t_parser **parser, t_envpath *envpath, t_program *program)
 
 	if (!parser || !*parser)
 		return (0);
-	temp = *parser;
+	temp = *(program->parsed);
 	if (check_buildin(temp, envpath, program))
 		return (1);
 	return (0);
