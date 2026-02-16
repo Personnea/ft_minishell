@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 23:15:48 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/13 13:47:50 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:18:38 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,56 @@ int	buildin_export(t_parser *cmd, t_envpath *envpath, t_program *program)
 	{
 		if (!second_if_check(cmd, program))
 		{
-			array = ft_split(cmd->s, '=');
-			if (!array)
-				return (1);
-			key = ft_strdup(array[0]);
-			if (!array[1] && ft_strchr(cmd->s, '=') && !cmd->next)
-				value = ft_strdup("");
-			else if (!array[1] && !ft_strchr(cmd->s, '=') && !cmd->next)
-				value = 0;
-			else if (array[1])
-				value = ft_strdup(array[1]);
-			else if (!array[1] && ft_strchr(cmd->s, '=') && cmd->next)
+			if (!ft_strchr(cmd->s, '=') && cmd->next && ft_strchr(cmd->next->s, '='))
 			{
-				value = ft_strdup(cmd->next->s);
-				cmd = cmd->next;
+				if (ft_strlen(cmd->next->s) == 1 && cmd->next->next)
+				{
+					if (!new_envpath(&envpath, cmd->s, cmd->next->next->s))
+						return (1);
+					cmd = cmd->next->next;
+				}
+				else if (ft_strlen(cmd->next->s) == 1 && !cmd->next->next)
+				{
+					if (!new_envpath(&envpath, cmd->s, ""))
+						return (1);
+					cmd = cmd->next;
+				}
+				else
+				{
+					array = ft_split(cmd->next->s, '=');
+					if (!array)
+						return (1);
+					if (!new_envpath(&envpath, cmd->s, array[0]))
+						return (1);
+					free_array_of_double(array);
+					cmd = cmd->next;
+				}
 			}
 			else
-				value = 0;
-			free_array_of_double(array);
-			printf("exporting key %s with value %s\n", key, value);
-			if (!new_envpath(&envpath, key, value))
-				return (1);
-			free(key);
-			free(value);
+			{
+				array = ft_split(cmd->s, '=');
+				if (!array)
+					return (1);
+				key = ft_strdup(array[0]);
+				if (!array[1] && ft_strchr(cmd->s, '=') && !cmd->next)
+					value = ft_strdup("");
+				else if (!array[1] && !ft_strchr(cmd->s, '=') && !cmd->next)
+					value = 0;
+				else if (array[1])
+					value = ft_strdup(array[1]);
+				else if (!array[1] && ft_strchr(cmd->s, '=') && cmd->next)
+				{
+					value = ft_strdup(cmd->next->s);
+					cmd = cmd->next;
+				}
+				else
+					value = 0;
+				free_array_of_double(array);
+				if (!new_envpath(&envpath, key, value))
+					return (1);
+				free(key);
+				free(value);
+			}
 		}
 		cmd = cmd->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:16:39 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/16 12:42:52 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:57:18 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ static int	handle_env_var(t_parser *node, t_envpath *envpath,
 
 void	set_node_type(t_parser *node)
 {
-	if (node->prev && (node->prev->type == CMD || node->prev->type == CMD_ARG))
+	if (node->type == REDIR_INPUT || node->type == REDIR_OUTPUT || node->type == REDIR_OUTPUT_APP)
+		return ;
+	if (node->prev && (node->prev->type == REDIR_INPUT || node->prev->type == REDIR_OUTPUT || node->prev->type == REDIR_OUTPUT_APP))
+		node->type = FILENAME;
+	else if (node->prev && (node->prev->type == CMD || node->prev->type == CMD_ARG))
 		node->type = CMD_ARG;
 	else
 		node->type = CMD;
@@ -88,6 +92,28 @@ static int	init_expand(t_parser *node, char **new_str, int *indice, int *len)
 	indice[0] = 1;
 	indice[1] = 0;
 	return (0);
+}
+
+void	parser_clear_one(t_parser **node, t_program *program)
+{
+	t_parser	*next;
+	t_parser	*prev;
+
+	if (!(*node))
+		return ;
+	if (!(*node)->prev && (*node)->next)
+		*(program->parsed) = (*node)->next;
+	if (!(*node)->next && !(*node)->prev)
+		*(program->parsed) = 0;
+	next = (*node)->next;
+	prev = (*node)->prev;
+	if (prev)
+		prev->next = next;
+	if (next)
+		next->prev = prev;
+	free((*node)->s);
+	free((*node));
+	(*node) = 0;
 }
 
 int	expand_d_quote(t_parser **node, t_envpath *envpath)
@@ -114,9 +140,13 @@ int	expand_d_quote(t_parser **node, t_envpath *envpath)
 	}
 	new_str[indice[1]] = '\0';
 	free((*node)->s);
-	(*node)->s = new_str;
-	if (indice[1] == 0)
-		return (parser_clear_one(node), 0);
+	if (new_str[0] == 0)
+		(*node)->s = ft_strdup("");
+	else
+		(*node)->s = new_str;
+	// if (indice[1] == 0)
+	// 	return (parser_clear_one(node, program), 0);
+	
 	set_node_type((*node));
 	return (0);
 }

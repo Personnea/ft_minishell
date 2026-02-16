@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:53:12 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/13 15:28:05 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:19:34 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	sanitize_redir_input(t_parser *token)
 {
 	if (!token->next)
 		return (error_near_newline(), 1);
-	if (token->next->type != FILENAME)
+	if (token->next->type != FILENAME && token->next->type != ENVVAR && token->next->type != EXIT_STATUS)
 		return (error_near_char("<"), 1);
 	return (0);
 }
@@ -80,7 +80,7 @@ int	sanitize_redir_output(t_parser *token)
 {
 	if (!token->next)
 		return (error_near_newline(), 1);
-	if (token->next->type != FILENAME)
+	if (token->next->type != FILENAME && token->next->type != ENVVAR && token->next->type != EXIT_STATUS)
 		return (error_near_char(">"), 1);
 	return (0);
 }
@@ -89,7 +89,7 @@ int	sanitize_redir_output_app(t_parser *token)
 {
 	if (!token->next)
 		return (error_near_newline(), 1);
-	if (token->next->type != FILENAME)
+	if (token->next->type != FILENAME && token->next->type != ENVVAR && token->next->type != EXIT_STATUS)
 		return (error_near_char(">>"), 1);
 	return (0);
 }
@@ -107,7 +107,6 @@ int	sanitize(t_parser **head)
 {
 	t_parser	*temp;
 
-	//print_error(*head);
 	temp = *head;
 	while (temp)
 	{

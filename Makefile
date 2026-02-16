@@ -6,7 +6,7 @@
 #    By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/02/13 17:45:25 by abarthes         ###   ########.fr        #
+#    Updated: 2026/02/16 15:04:22 by abarthes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c \
 		execve/parse_command.c execve/execve_checks.c execve/execve_children.c \
 		execve/free_our_stuff.c \
 		terminal/terminal_debug.c terminal/terminal_utils_handlers.c buildins/buildin_echo.c \
-		errors/error.c
+		errors/error.c expand/utils.c
 
 OBJ = $(SRC:.c=.o)
 
