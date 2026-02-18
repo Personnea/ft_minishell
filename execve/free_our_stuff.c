@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_our_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 18:08:21 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/12 09:51:17 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/18 15:26:34 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ void	clearmatrix(char **tab)
 		i++;
 	}
 	free(tab);
+	tab = 0;
+}
+
+void	free_splited_cmd(char **splited_cmd)
+{
+	if (splited_cmd)
+		free(splited_cmd);
 }
 
 void	free_t_parser(t_parser *parser)
@@ -59,9 +66,9 @@ void	free_t_command(t_commands *tofree)
 void	clean_exit(char **splited_cmd, char *new_cmd)
 {
 	if (splited_cmd)
-		clearmatrix(splited_cmd);
+		free_splited_cmd(splited_cmd);
 	if (new_cmd)
 		free(new_cmd);
-	exit(127);
+	exit(126);
 }
 

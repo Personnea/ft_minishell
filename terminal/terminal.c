@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:04:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/18 01:01:40 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/18 15:27:24 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	process_parsing_and_sanitize(t_program *program, char *line)
 	*program->parsed = parsing(line);
 	if (!(*program->parsed) || sanitize(program->parsed))
 	{
+		program->last_exit_status = 258;
 		parser_clear(program->parsed);
 		return (1);
 	}

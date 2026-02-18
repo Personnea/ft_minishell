@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:53:07 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/18 00:43:51 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/18 14:13:01 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ int			sanitize_delimiter(t_parser *token);
 
 int			sanitize(t_parser **head);
 t_parser	*get_prev_echo(t_parser *node);
+
+t_parser	*get_next_non_space(t_parser *token);
+t_parser	*get_prev_non_space(t_parser *token);
 
 #endif
