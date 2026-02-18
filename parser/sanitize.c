@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:53:12 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/17 23:52:03 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/18 00:41:12 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,42 +24,6 @@ int	sanitize_pipe(t_parser *token, t_parser **head)
 		&& token->prev->type != IS_DELIMITER && token->prev->type != ENVVAR
 		&& token->prev->type != EXIT_STATUS)
 		return (error_near_pipe(), 1);
-	return (0);
-}
-
-int	sanitize_redir_input(t_parser *token)
-{
-	if (!token->next)
-		return (error_near_newline(), 1);
-	if (token->next->type != FILENAME && token->next->type != ENVVAR && token->next->type != EXIT_STATUS)
-		return (error_near_char("<"), 1);
-	return (0);
-}
-
-int	sanitize_redir_output(t_parser *token)
-{
-	if (!token->next)
-		return (error_near_newline(), 1);
-	if (token->next->type != FILENAME && token->next->type != ENVVAR && token->next->type != EXIT_STATUS)
-		return (error_near_char(">"), 1);
-	return (0);
-}
-
-int	sanitize_redir_output_app(t_parser *token)
-{
-	if (!token->next)
-		return (error_near_newline(), 1);
-	if (token->next->type != FILENAME && token->next->type != ENVVAR && token->next->type != EXIT_STATUS)
-		return (error_near_char(">>"), 1);
-	return (0);
-}
-
-int	sanitize_delimiter(t_parser *token)
-{
-	if (!token->next)
-		return (error_near_newline(), 1);
-	if (token->next->type != IS_DELIMITER)
-		return (error_near_char("<<"), 1);
 	return (0);
 }
 
