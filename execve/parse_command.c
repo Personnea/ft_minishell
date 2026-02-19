@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:12:28 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/19 22:34:25 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/19 23:38:08 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*get_a_valid_name(void)
 	}
 	return (NULL);
 }
-//check with aurelien how does heredoc works and what kind of t_parser its expecting
+
 int	check_for_redirections(t_parser *cmd, t_commands *tofill)
 {
 	t_parser	*temp;
@@ -99,7 +99,6 @@ int	check_for_redirections(t_parser *cmd, t_commands *tofill)
 	{
 		if (temp->type == REDIR_INPUT && temp->next)
 		{
-			ft_printf_fd(2, "Yup that's a file input\n");
 			free(tofill->infile);
 			tofill->infile = ft_strdup(temp->next->s);
 			if (!tofill->infile)
@@ -107,13 +106,10 @@ int	check_for_redirections(t_parser *cmd, t_commands *tofill)
 			if (access(tofill->infile, F_OK | R_OK) != 0)
 				return (1);
 		}
-		//part responsible for handling heredocs in pipes
 		if (temp->type == DELIMITER && temp->next)
 		{
-			ft_printf_fd(2, "Getting in the heredoc\n");
 			free(tofill->infile);
 			tofill->infile = get_a_valid_name();
-			ft_printf_fd(2, "%s\n", tofill->infile);
 			doing_here_doc_util(temp, tofill->infile);
 			temp = temp->next;
 		}
@@ -164,7 +160,7 @@ void	parse_commands_with_pipe(t_commands **commands, t_parser *parsed)
 		{
 			new_cmd = commands_node_new(temp);
 			if (!new_cmd)
-				return ;
+				return ; //add freeing of every previous command and stop the execution
 			commands_add_back(commands, new_cmd);
 			while (temp && temp->type != PIPE)
 				temp = temp->next;
