@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 17:16:41 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/18 01:03:38 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 00:39:31 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ void	first_exec(t_program *program, t_commands *cmd)
 		close(pipe_fd[1]);
 		if (setinputs(cmd) == 1 || setoutputs(cmd) == 1)
 			free_t_command(cmd); //create a tailored free_program function and exit and call this one
-		handle_the_child(pipe_fd, program, cmd);
+		handle_the_child(program, cmd);
 	}
 }
+
 
 int	execve_with_pipe(t_program *program)
 {

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 23:10:31 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/10 15:26:25 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 00:45:11 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "buildins.h"
 
-//SEGFAULT for a reason I cannot understand
 void	free_envpath(t_envpath *envpath)
 {
 	t_envpath	*next;
@@ -47,7 +46,7 @@ void	free_parsers(t_parser *parser)
 	free_parsers(next);
 }
 
-int is_numeric_string(char *str)
+int	is_numeric_string(char *str)
 {
 	int	i;
 

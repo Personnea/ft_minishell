@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:12:28 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/19 23:38:08 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 00:42:14 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,23 @@ t_commands	*commands_node_new(t_parser *cmd)
 	return (new);
 }
 
+void	free_all_commands(t_commands **commands)
+{
+	t_commands	*next;
+	t_commands	*curr;
+
+	if (!commands || !*commands)
+		return ;
+	next = (*commands)->next;
+	curr = *commands;
+	while (next)
+	{
+		free_t_command(curr);
+		curr = next;
+		next = curr->next;
+	}
+	free_t_command(curr);
+}
 
 void	parse_commands_with_pipe(t_commands **commands, t_parser *parsed)
 {
@@ -160,7 +177,11 @@ void	parse_commands_with_pipe(t_commands **commands, t_parser *parsed)
 		{
 			new_cmd = commands_node_new(temp);
 			if (!new_cmd)
-				return ; //add freeing of every previous command and stop the execution
+			{
+				free_all_commands(commands);
+				*commands = NULL;
+				return ;
+			}
 			commands_add_back(commands, new_cmd);
 			while (temp && temp->type != PIPE)
 				temp = temp->next;

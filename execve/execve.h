@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/18 00:53:18 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 00:39:37 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void			clean_exit(char **splited_cmd, char *new_cmd);
 
 void			do_command_piped(t_program *program,
 					t_commands *cmd, char *path, char **envp);
-void			handle_the_child(int pipe_fd[2],
-					t_program *program, t_commands *cmd);
+void			handle_the_child(t_program *program, t_commands *cmd);
 void			do_command(t_program *program,
 					t_parser *cmd, char *path, char **envp);
 
