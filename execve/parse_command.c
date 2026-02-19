@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:12:28 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/18 22:41:55 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/19 04:35:23 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ char	**create_cmd_args(t_parser *cmd)
 	return (args);
 }
 
+/*** 
+ *	Find a name not currently used to create a new fd
+ * 	By concatenating a character with ".heredoc_temp_file"
+ * 	return said name after testing it does not exist yet so no data is lost
+ * ***/
 char	*get_a_valid_name(void)
 {
 	char	*filename;
@@ -101,6 +106,7 @@ int	check_for_redirections(t_parser *cmd, t_commands *tofill)
 			if (access(tofill->infile, F_OK | R_OK) != 0)
 				return (1);
 		}
+		//part responsible for handling heredocs in pipes
 		if (temp->type == DELIMITER && temp->next)
 		{
 			free(tofill->infile);
