@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 17:03:53 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/10 17:32:46 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 15:29:35 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,38 @@ void	set_signal_action(void)
 	sigaction(SIGINT, &act, NULL);
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &act, NULL);
+	sigaction(SIGTSTP, &act, NULL);
+}
+
+t_signal_handlers	setup_signals_before_fork(void)
+{
+	struct sigaction	sa;
+	t_signal_handlers	handlers;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = SIG_DFL;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, &handlers.old_int);
+	sigaction(SIGQUIT, &sa, &handlers.old_quit);
+	sigaction(SIGTSTP, &sa, &handlers.old_tstp);
+	return (handlers);
+}
+
+void	setup_signals_after_fork(void)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGTSTP, &sa, NULL);
+}
+
+void	restore_signals(t_signal_handlers handlers)
+{
+	sigaction(SIGINT, &handlers.old_int, NULL);
+	sigaction(SIGQUIT, &handlers.old_quit, NULL);
+	sigaction(SIGTSTP, &handlers.old_tstp, NULL);
 }

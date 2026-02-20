@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 17:01:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/20 06:44:47 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 15:29:12 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ int		rl_on_new_line(void);
 void	rl_redisplay(void);
 # endif
 
-void	set_signal_action(void);
+typedef struct s_signal_handlers
+{
+	struct sigaction	old_int;
+	struct sigaction	old_quit;
+	struct sigaction	old_tstp;
+}	t_signal_handlers;
+
+void				set_signal_action(void);
+t_signal_handlers	setup_signals_before_fork(void);
+void				setup_signals_after_fork(void);
+void				restore_signals(t_signal_handlers handlers);
 
 #endif
