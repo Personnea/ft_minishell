@@ -6,13 +6,13 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 07:28:43 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 07:31:21 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 07:43:06 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 
-static int	replace_with_expansion(
+int	replace_with_expansion(
 	t_parser **node,
 	t_parser *expanded_one)
 {
@@ -36,7 +36,7 @@ static int	replace_with_expansion(
 	return (0);
 }
 
-static void	attach_tail(t_parser *node, t_parser *next)
+void	attach_tail(t_parser *node, t_parser *next)
 {
 	t_parser	*tail;
 
@@ -47,7 +47,7 @@ static void	attach_tail(t_parser *node, t_parser *next)
 	tail->next = next;
 }
 
-static void	mark_expanded_nodes(t_parser *start, t_parser *stop)
+void	mark_expanded_nodes(t_parser *start, t_parser *stop)
 {
 	t_parser	*cur;
 
