@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtol.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:22:51 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/16 18:04:38 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 06:55:16 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ long	ft_strtol(const char *str)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		if (str[i] == '-')
-			sign = -1;
+		sign += -2 * (str[i] == '-');
 		i++;
 	}
 	while (str[i] && ft_isdigit(str[i]))
 	{
 		result = result * 10 + (str[i] - '0');
-		if ((result > LLONG_MAX && sign == 1) || (result > LLONG_MIN && sign == -1))
+		if ((result > LLONG_MAX && sign == 1)
+			|| (result > LLONG_MIN && sign == -1))
 			return (0);
 		i++;
 	}

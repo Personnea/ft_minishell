@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.h                                         :+:      :+:    :+:   */
+/*   terminal_checks.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 13:29:58 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/19 22:29:44 by emaigne          ###   ########.fr       */
+/*   Created: 2026/02/20 06:40:33 by emaigne           #+#    #+#             */
+/*   Updated: 2026/02/20 06:41:00 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HERE_DOC_H
-# define HERE_DOC_H
+#include "terminal.h"
 
-# define HERE_DOC_TMPFILE ".here_doc_tempfile"
-
-# include "../libft/libft.h"
-# include "../parser/parser.h"
-# include <fcntl.h>
-# include <readline/readline.h>
-
-int	doing_here_doc_util(t_parser *lineread, char *tempfile);
-int	doing_here_doc(t_parser **lineread, char *tempfile);
-
-#endif
+int	check_at_least_one_node(t_program *program)
+{
+	*(program->parsed) = get_first_parser(*(program->parsed));
+	if (!*(program->parsed))
+		return (1);
+	return (0);
+}

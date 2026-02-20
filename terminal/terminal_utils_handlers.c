@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_utils_handlers.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 03:17:52 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/18 16:00:17 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 08:01:38 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@ int	handle_redirections(t_program *program)
 	program->saved_stdout = dup(STDOUT_FILENO);
 	if (file_handler(program->parsed))
 		return (1);
-	program->here_doc_tempfile = HERE_DOC_TMPFILE;
-	doing_here_doc(program->parsed, HERE_DOC_TMPFILE);
+	if (!there_is_at_least_one_pipe(*program->parsed))
+	{
+		program->here_doc_tempfile = HERE_DOC_TMPFILE;
+		doing_here_doc(program->parsed, HERE_DOC_TMPFILE);
+	}
 	return (0);
 }
 
 void	handle_expansions(t_program *program)
 {
 	print_debug(program);
-	send_to_expand(program->parsed, *program->envpath, program);
+	send_to_expand(*program->envpath, program);
 	add_empty_nodes_to_their_next(program);
 	remove_useless_space_nodes(program);
 	restore_types_after_expansion(program->parsed);
@@ -39,7 +42,8 @@ void	execute_and_restore(t_program *program)
 	{
 		buildins(program->parsed, *program->envpath, program);
 	}
-	if (!((*program->parsed)->s[0] == ':' && ft_strlen((*program->parsed)->s) == 1))
+	if (!((*program->parsed)->s[0] == ':'
+			&& ft_strlen((*program->parsed)->s) == 1))
 		execve_handler(program);
 	rl_replace_line("", 0);
 	rl_redisplay();

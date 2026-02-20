@@ -6,62 +6,70 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:53:31 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/16 18:54:53 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 08:29:59 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve.h"
 #include "../here_doc/here_doc.h"
 
+char	**ft_dup_matrix(char **tab)
+{
+	char	**dup;
+	int		i;
+
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (tab[i])
+		i++;
+	dup = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!dup)
+		return (NULL);
+	i = -1;
+	while (tab[++i])
+	{
+		dup[i] = ft_strdup(tab[i]);
+		if (!dup[i])
+		{
+			while (i > 0)
+				free(dup[--i]);
+			free(dup);
+			return (NULL);
+		}
+	}
+	dup[i] = NULL;
+	return (dup);
+}
+
 void	do_command_piped(t_program *program, t_commands *cmd,
 	char *path, char **envp)
 {
 	char		*new_cmd;
+	char		**args;
 
 	if (cmd->cmd->type == DELIMITER)
+	{
+		free_t_command(cmd);
+		free_t_program(program);
 		exit(1);
+	}
 	new_cmd = find_command(cmd->cmd->s, path);
-	if (!new_cmd)
+	args = ft_dup_matrix(cmd->args);
+	//free_t_command(cmd); //somehow isn't usefull to reduce the leaks in ls | ls nor hello | hello scenarios, and even worst, causes issues with sanitize
+	if (!new_cmd || !args)
+	{
+		free_t_program(program);
+		clearmatrix(args);
 		exit (1);
+	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &program->g_term_orig);
-	execve(new_cmd, cmd->args, envp);
+	free_t_program(program);
+	execve(new_cmd, args, envp);
 	error_message_command_not_found(cmd->cmd->s);
 	free(new_cmd);
+	free(args);
 	exit(127);
-}
-
-void	handle_the_child(int pipe_fd[2], t_program *program, t_commands *cmd)
-{
-	//int			fd;
-	(void)		pipe_fd;
-	char		*path;
-	// t_parser	*file;
-	// t_lexer		input_type;
-
-	// close(pipe_fd[0]);
-	// dup2(pipe_fd[1], STDOUT_FILENO);
-	// close(pipe_fd[1]);
-	// file = get_last_input_node(*(program->parsed), &input_type);
-	// if (input_type == REDIR_INPUT && file)
-	// 	fd = open(file->s, O_RDONLY);
-	// else if (input_type == DELIMITER)
-	// 	fd = open(HERE_DOC_TMPFILE, O_RDONLY);
-	// else
-	// 	fd = program->saved_stdin;
-	// if (fd < 0)
-	// {
-	// 	perror("open");
-	// 	exit(1);
-	// }
-	// dup2(fd, STDIN_FILENO);
-	// close(fd);
-	if (is_a_buildin(cmd->cmd->s))
-		exit(check_buildin_piped(cmd->cmd, *program->envpath, program));
-	else
-	{
-		path = get_env_value_by_key(program->envpath, "PATH");
-		do_command_piped(program, cmd, path, program->envp);
-	}
 }
 
 void	do_command(t_program *program, t_parser *cmd, char *path, char **envp)

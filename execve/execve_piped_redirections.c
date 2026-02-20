@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exceve_piped_redirections.c                        :+:      :+:    :+:   */
+/*   execve_piped_redirections.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 00:51:09 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/18 00:51:43 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 08:09:15 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,14 @@ int	setinputs(t_commands *commands)
 {
 	int	fd;
 
-	if (commands->inputtype == DELIMITER)
+	if (commands->infile)
 	{
 		fd = open(commands->infile, O_RDONLY);
 		if (fd < 0)
 			return (perror("open"), 1);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-	}
-	else if (commands->infile)
-	{
-		fd = open(commands->infile, O_RDONLY);
-		if (fd < 0)
-			return (perror("open"), 1);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
+		unlink(commands->infile);
 	}
 	return (0);
 }

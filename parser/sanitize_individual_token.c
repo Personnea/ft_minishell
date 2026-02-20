@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sanitize_individual_token.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 00:40:59 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/18 14:20:33 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 08:38:39 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	sanitize_redir_input(t_parser *token)
 {
 	if (!get_next_non_space(token))
 		return (error_near_newline(), 1);
-	if (get_next_non_space(token)->type != FILENAME && get_next_non_space(token)->type
+	if (get_next_non_space(token)->type
+		!= FILENAME && get_next_non_space(token)->type
 		!= ENVVAR && get_next_non_space(token)->type != EXIT_STATUS)
 		return (error_near_char("<"), 1);
 	return (0);
@@ -26,7 +27,8 @@ int	sanitize_redir_output(t_parser *token)
 {
 	if (!get_next_non_space(token))
 		return (error_near_newline(), 1);
-	if (get_next_non_space(token)->type != FILENAME && get_next_non_space(token)->type
+	if (get_next_non_space(token)->type
+		!= FILENAME && get_next_non_space(token)->type
 		!= ENVVAR && get_next_non_space(token)->type != EXIT_STATUS)
 		return (error_near_char(">"), 1);
 	return (0);
@@ -36,7 +38,8 @@ int	sanitize_redir_output_app(t_parser *token)
 {
 	if (!get_next_non_space(token))
 		return (error_near_newline(), 1);
-	if (get_next_non_space(token)->type != FILENAME && get_next_non_space(token)->type
+	if (get_next_non_space(token)->type
+		!= FILENAME && get_next_non_space(token)->type
 		!= ENVVAR && get_next_non_space(token)->type != EXIT_STATUS)
 		return (error_near_char(">>"), 1);
 	return (0);

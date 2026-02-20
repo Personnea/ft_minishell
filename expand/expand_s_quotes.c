@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buildin_envpath.c                                  :+:      :+:    :+:   */
+/*   expand_s_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 23:15:48 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 08:16:09 by emaigne          ###   ########.fr       */
+/*   Created: 2026/02/20 07:00:39 by emaigne           #+#    #+#             */
+/*   Updated: 2026/02/20 07:00:55 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buildins.h"
+#include "expand.h"
 
-int	buildin_env(t_program *program)
+int	expand_s_quote(t_parser **node, t_program *program)
 {
-	if (get_env_value_by_key(program->envpath, "PATH") == NULL)
-	{
-		printf("minishell: env: No such file or directory\n");
-		program->last_exit_status = 127;
-		return (0);
-	}
-	program->last_exit_status = 0;
-	print_envpath_list(*program->envpath, 0);
+	char	*new_str;
+	int		len;
+
+	len = ft_strlen((*node)->s);
+	new_str = malloc((len - 1) * sizeof(char));
+	if (!new_str)
+		return (1);
+	ft_strlcpy(new_str, (*node)->s + 1, len - 1);
+	free((*node)->s);
+	(*node)->s = new_str;
+	if ((*node)->s[0] == 0)
+		return (parser_clear_one(node, program), 0);
+	(*node)->type = WAS_EXPANDED;
 	return (0);
 }

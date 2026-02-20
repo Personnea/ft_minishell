@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:19:35 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/18 16:13:34 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 06:37:49 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,40 @@ int	valid_argument_n(char *str)
 	return (1);
 }
 
+static int	is_space_token(char *s)
+{
+	if (!s)
+		return (0);
+	if (s[0] == ' ' && ft_strlen(s) == 1)
+		return (1);
+	return (0);
+}
+
+static t_parser	*skip_n_flags(t_parser *temp, int *is_n)
+{
+	while (temp && temp->s && ((temp->s[0] == '-'
+				&& valid_argument_n(temp->s))
+			|| is_space_token(temp->s)))
+	{
+		if (!is_space_token(temp->s))
+			*is_n = 1;
+		temp = temp->next;
+	}
+	return (temp);
+}
+
+static void	print_echo_args(t_parser *temp)
+{
+	while (temp && (temp->type == CMD || temp->type == CMD_ARG))
+	{
+		if (!is_space_token(temp->s))
+			printf("%s", temp->s);
+		temp = temp->next;
+		if (temp && (temp->type == CMD || temp->type == CMD_ARG))
+			printf(" ");
+	}
+}
+
 int	buildin_echo(t_parser *cmd, t_program *program)
 {
 	t_parser	*temp;
@@ -35,23 +69,8 @@ int	buildin_echo(t_parser *cmd, t_program *program)
 	program->last_exit_status = 0;
 	if (!cmd->next)
 		return (printf("\n"), 0);
-	temp = cmd->next;
-	while (temp && temp->s && ((temp->s[0] == '-'
-				&& valid_argument_n(temp->s))
-			|| (temp->s[0] == ' ' && ft_strlen(temp->s) == 1)))
-	{
-		if (temp->s[0] != ' ')
-			is_n = 1;
-		temp = temp->next;
-	}
-	while (temp && (temp->type == CMD || temp->type == CMD_ARG))
-	{
-		if (!(temp->s[0] == ' ' && ft_strlen(temp->s) == 1))
-			printf("%s", temp->s);
-		temp = temp->next;
-		if (temp && (temp->type == CMD || temp->type == CMD_ARG))
-			printf(" ");
-	}
+	temp = skip_n_flags(cmd->next, &is_n);
+	print_echo_args(temp);
 	if (!is_n)
 		printf("\n");
 	return (0);
