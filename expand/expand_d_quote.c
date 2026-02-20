@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:16:39 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 07:12:20 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 07:20:59 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,43 @@ static int	handle_env_var(t_parser *node, t_envpath *envpath,
 	return (free(key), 0);
 }
 
+static int	build_dquote_string(
+	t_parser *node,
+	t_envpath *envpath,
+	char *new_str,
+	int len)
+{
+	int	ind[2];
+
+	ind[0] = 1;
+	ind[1] = 0;
+	while (ind[0] < len - 1)
+	{
+		if (is_env_var(node, ind[0]))
+		{
+			if (handle_env_var(node, envpath, &new_str, ind))
+				return (1);
+			continue ;
+		}
+		new_str[ind[1]++] = node->s[ind[0]++];
+	}
+	new_str[ind[1]] = '\0';
+	return (0);
+}
+
 int	expand_d_quote(t_parser **node, t_envpath *envpath)
 {
 	char	*new_str;
-	int		indice[2];
 	int		len;
 
 	len = ft_strlen((*node)->s);
-	new_str = malloc(len * sizeof(char));
+	new_str = malloc(sizeof(char) * len);
 	if (!new_str)
 		return (1);
-	indice[0] = 1;
-	indice[1] = 0;
-	while (indice[0] < len - 1)
-	{
-		if (is_env_var((*node), indice[0]))
-		{
-			if (handle_env_var((*node), envpath, &new_str, indice))
-				return (free(new_str), 1);
-			continue ;
-		}
-		else
-		{
-			new_str[indice[1]++] = (*node)->s[indice[0]++];
-		}
-	}
-	new_str[indice[1]] = '\0';
+	if (build_dquote_string(*node, envpath, new_str, len))
+		return (free(new_str), 1);
 	free((*node)->s);
-	if (new_str[0] == 0)
+	if (new_str[0] == '\0')
 		(*node)->s = ft_strdup("");
 	else
 		(*node)->s = new_str;
