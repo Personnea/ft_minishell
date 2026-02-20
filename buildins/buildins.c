@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:41:26 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/20 14:50:19 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 16:40:11 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,6 @@ int	buildin_pwd(t_program *program)
 	{
 		perror("getcwd() error");
 		return (1);
-	}
-}
-
-int	buildin_cd(t_parser *cmd, t_envpath *envpath, t_program *program)
-{
-	char	*home;
-
-	home = get_env_value_by_key(&envpath, "HOME");
-	if (!cmd->next || cmd->next->type != CMD_ARG)
-	{
-		if (chdir(home) != 0)
-			return (perror("cd"), program->last_exit_status = 1, 1);
-		update_pwd_and_oldpwd(envpath);
-		program->last_exit_status = 0;
-		return (0);
-	}
-	else
-	{
-		if (chdir(cmd->next->s) != 0)
-			return (perror("cd"), program->last_exit_status = 1, 1);
-		update_pwd_and_oldpwd(envpath);
-		program->last_exit_status = 0;
-		return (0);
 	}
 }
 

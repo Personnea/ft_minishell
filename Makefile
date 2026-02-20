@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+         #
+#    By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/02/20 11:55:16 by emaigne          ###   ########.fr        #
+#    Updated: 2026/02/20 16:49:55 by abarthes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c \
 		parser/parser_check_its.c parser/parser_list_operations.c \
 		buildins/buildins.c \
 		buildins/buildin_exit.c buildins/buildin_envpath.c \
-		buildins/buildin_unset_export.c \
+		buildins/buildin_unset_export.c buildins/buildin_cd.c \
 		envpath/envpath.c envpath/envp_utils.c parser/utils.c \
 		envpath/envp_operations.c \
 		expand/expand.c expand/expand_plain_text.c expand/expand_d_quote.c \
