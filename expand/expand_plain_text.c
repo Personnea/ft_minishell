@@ -6,17 +6,11 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:11:25 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 06:58:33 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 07:08:59 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
-
-static void	free_and_reset_node(t_parser *node, char *new_str)
-{
-	free(node->s);
-	node->s = new_str;
-}
 
 static int	contains_env_var(const char *s)
 {
@@ -32,48 +26,6 @@ static int	contains_env_var(const char *s)
 	return (0);
 }
 
-int check_and_count_for_envvar(t_parser *n, t_envpath *ep)
-{
-	int		i;
-	int		j;
-	int		t_count;
-	char	*key;
-	char	*value;
-	// int		var_len;
-
-	i = -1;
-	t_count = 0;
-	while (n->s[++i])
-	{
-		if (n->s[i] == '$' && ft_isalnum(n->s[i+1]))
-		{
-			j = i + 1;
-			while (n->s[j] && ft_isalnum(n->s[j]))
-				j++; 
-			key = ft_substr(n->s, i + 1, j - i - 1);
-			if (!key)
-				return (-1);
-			value = get_env_value_by_key(&ep, key);
-			if (value)
-				t_count += ft_strlen(value);
-			i = j - 1;
-			free(key);
-		}
-		else
-			t_count++;
-	}
-	return (t_count);
-}
-
-int	copy_env_value(char *new_str, int *j, char *value)
-{
-	int	k;
-
-	k = 0;
-	while (value && value[k])
-		new_str[(*j)++] = value[k++];
-	return (0);
-}
 
 int	handle_plain_env_var(t_parser *node, t_envpath *envpath,
 	char *new_str, int *indices)

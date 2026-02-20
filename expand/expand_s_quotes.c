@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   expand_s_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 15:02:06 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/20 07:08:06 by emaigne          ###   ########.fr       */
+/*   Created: 2026/02/20 07:00:39 by emaigne           #+#    #+#             */
+/*   Updated: 2026/02/20 07:00:55 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
 
-int	restore_types_after_expansion(t_parser **tokens)
+int	expand_s_quote(t_parser **node, t_program *program)
 {
-	t_parser	*cur;
+	char	*new_str;
+	int		len;
 
-	cur = *tokens;
-	while (cur)
-	{
-		set_node_type(cur);
-		cur = cur->next;
-	}
+	len = ft_strlen((*node)->s);
+	new_str = malloc((len - 1) * sizeof(char));
+	if (!new_str)
+		return (1);
+	ft_strlcpy(new_str, (*node)->s + 1, len - 1);
+	free((*node)->s);
+	(*node)->s = new_str;
+	if ((*node)->s[0] == 0)
+		return (parser_clear_one(node, program), 0);
+	(*node)->type = WAS_EXPANDED;
 	return (0);
 }
-
-int	copy_env_value(char *new_str, int *j, char *value)
-{
-	int	k;
-
-	k = 0;
-	while (value && value[k])
-		new_str[(*j)++] = value[k++];
-	return (0);
-}
-

@@ -6,7 +6,7 @@
 #    By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/02/20 06:41:17 by emaigne          ###   ########.fr        #
+#    Updated: 2026/02/20 07:14:14 by emaigne          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c parser/sanitize_de
 		envpath/envpath.c envpath/envp_utils.c parser/utils.c \
 		envpath/envp_operations.c \
 		expand/expand.c expand/expand_plain_text.c expand/expand_d_quote.c \
+		expand/expand_s_quotes.c expand/nodes_operations.c  expand/checks_for_expand.c \
+		expand/add_empty_nodes_to_their_next.c \
 		signals/signals.c files_handler/fhandler.c here_doc/here_doc.c \
 		execve/execve.c execve/utils.c execve/find_command.c execve/execve_piped.c \
 		execve/parse_command.c execve/execve_checks.c execve/execve_children.c \
