@@ -6,7 +6,7 @@
 #    By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/21 13:32:07 by abarthes          #+#    #+#              #
-#    Updated: 2026/02/20 16:49:55 by abarthes         ###   ########.fr        #
+#    Updated: 2026/02/20 18:05:20 by abarthes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c \
 		envpath/envp_operations.c \
 		expand/expand.c expand/expand_plain_text.c expand/expand_d_quote.c \
 		expand/expand_s_quotes.c expand/nodes_operations.c \
-		expand/checks_for_expand.c \
+		expand/checks_for_expand.c expand/calculate_env_size.c \
 		expand/add_empty_nodes_to_their_next.c expand/expand_env_var.c \
 		signals/signals.c files_handler/fhandler.c here_doc/here_doc.c \
 		execve/execve.c execve/utils.c execve/find_command.c \

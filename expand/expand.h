@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:49:19 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/20 08:02:39 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 18:04:41 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ int		copy_env_value(char *new_str, int *j, char *value);
 //			---Checks---					//
 int		is_env_var(t_parser *node, int i);
 int		check_and_count_for_envvar(t_parser *n, t_envpath *ep);
+
+int		calculate_final_size(t_parser *node, t_envpath *envpath, int len);
 
 #endif

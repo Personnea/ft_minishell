@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_piped_redirections.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 00:51:09 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 08:09:15 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 17:43:13 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	setinputs(t_commands *commands)
 			return (perror("open"), 1);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
-		unlink(commands->infile);
+		// unlink(commands->infile);
 	}
 	return (0);
 }

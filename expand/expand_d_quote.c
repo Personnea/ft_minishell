@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_d_quote.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:16:39 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 07:28:11 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 18:04:15 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int	expand_d_quote(t_parser **node, t_envpath *envpath)
 {
 	char	*new_str;
 	int		len;
+	int		final_size;
 
 	len = ft_strlen((*node)->s);
-	new_str = malloc(sizeof(char) * len);
+	final_size = calculate_final_size(*node, envpath, len);
+	new_str = malloc(sizeof(char) * final_size);
 	if (!new_str)
 		return (1);
 	if (build_dquote_string(*node, envpath, new_str, len))
