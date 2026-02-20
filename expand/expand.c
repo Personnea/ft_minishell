@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:49:27 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/20 07:00:38 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 07:28:57 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,59 +22,6 @@ int	expand_exit_status(t_parser *node, int status)
 	free(node->s);
 	node->s = status_str;
 	node->type = CMD_ARG;
-	return (0);
-}
-
-int	expand_env_var(t_parser **node, t_envpath *envpath, t_program *program)
-{
-	char		*value;
-
-	if (ft_strlen((*node)->s) == 0)
-		return (set_node_type((*node)), 0);
-	value = get_env_value_by_key(&envpath, (*node)->s);
-	if (value)
-	{
-		t_parser	*expanded_one = parsing(value);
-		t_parser	*expanded_next;
-		t_parser	*next;
-		t_parser	*prev;
-		if (!expanded_one)
-			return (1);
-		expanded_next = expanded_one->next;
-		prev = (*node)->prev;
-		next = (*node)->next;
-		free((*node)->s);
-		(*node)->type = expanded_one->type;
-		(*node)->s = expanded_one->s;
-		(*node)->prev = prev;
-		(*node)->next = expanded_next;
-		if (expanded_next)
-			expanded_next->prev = *node;
-		if (prev)
-			prev->next = *node;
-		if (next)
-		{
-			t_parser	*tail = get_last_parser((*node));
-			next->prev = tail;
-			tail->next = next;
-		}
-		free(expanded_one);
-		t_parser	*cur;
-		t_parser	*stop;
-
-		cur = (*node);
-		stop = next;
-		while (cur && cur != stop)
-		{
-			if (cur->type != T_SPACE)
-				cur->type = WAS_EXPANDED;
-			cur = cur->next;
-		}
-	}
-	else
-	{
-		return (parser_clear_one(node, program), 0);
-	}
 	return (0);
 }
 
