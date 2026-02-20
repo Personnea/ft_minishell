@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:48:39 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/17 16:19:05 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/20 06:45:25 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_parser	*get_prev_echo(t_parser *node)
 	{
 		if (node->type == PIPE)
 			return (temp);
-		if ((node->type == CMD || node->type == CMD_ARG) && ft_strncmp(node->s, "echo", 4) == 0 && ft_strlen(node->s) == 4)
+		if ((node->type == CMD || node->type == CMD_ARG)
+			&& ft_strncmp(node->s, "echo", 4) == 0 && ft_strlen(node->s) == 4)
 			return (node);
 		node = node->prev;
 	}

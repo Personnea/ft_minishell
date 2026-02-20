@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:34:15 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 01:45:34 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 06:46:05 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	its_env_var(t_parser **head, char *s, int *i)
 	x = 1;
 	while (s[x] && (ft_isalnum(s[x]) || s[x] == '_') && s[x] != '"')
 		x++;
-	if (get_prev_non_space(get_last_parser(*head)) && get_prev_non_space(get_last_parser(*head))->type == DELIMITER)
+	if (get_prev_non_space(get_last_parser(*head))
+		&& get_prev_non_space(get_last_parser(*head))->type == DELIMITER)
 	{
 		if (new_parser(head, parser_node_new(IS_DELIMITER, (s), x)) == 0)
 			return (0);
