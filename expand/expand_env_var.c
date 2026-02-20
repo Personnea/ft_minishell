@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_var.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 07:28:43 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 07:43:06 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 14:46:10 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ int	replace_with_expansion(
 	t_parser *expanded_one)
 {
 	t_parser	*prev;
-	t_parser	*next;
 	t_parser	*expanded_next;
 
 	prev = (*node)->prev;
-	next = (*node)->next;
 	expanded_next = expanded_one->next;
 	free((*node)->s);
 	(*node)->type = expanded_one->type;

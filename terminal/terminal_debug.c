@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_debug.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 02:31:09 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/19 22:44:16 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/20 14:53:19 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char static	*return_temptype(t_parser *temp)
 	char	*str;
 
 	str = return_temp_type_helper(temp);
-	if (str != NULL)
+	if (str == NULL)
 	{
 		if (temp->type == PIPE)
 			str = "PIPE";
