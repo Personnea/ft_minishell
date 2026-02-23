@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal_utils_handlers.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 03:17:52 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/20 08:01:38 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/23 14:45:36 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	handle_redirections(t_program *program)
 {
-	program->saved_stdin = dup(STDIN_FILENO);
-	program->saved_stdout = dup(STDOUT_FILENO);
 	if (file_handler(program->parsed))
 		return (1);
+	program->saved_stdin = dup(STDIN_FILENO);
+	program->saved_stdout = dup(STDOUT_FILENO);
 	if (!there_is_at_least_one_pipe(*program->parsed))
 	{
 		program->here_doc_tempfile = HERE_DOC_TMPFILE;
@@ -47,9 +47,17 @@ void	execute_and_restore(t_program *program)
 		execve_handler(program);
 	rl_replace_line("", 0);
 	rl_redisplay();
-	dup2(program->saved_stdin, STDIN_FILENO);
-	dup2(program->saved_stdout, STDOUT_FILENO);
-	close(program->saved_stdin);
-	close(program->saved_stdout);
+	if (program->saved_stdin >= 0)
+	{
+		dup2(program->saved_stdin, STDIN_FILENO);
+		close(program->saved_stdin);
+		program->saved_stdin = -1;
+	}
+	if (program->saved_stdout >= 0)
+	{
+		dup2(program->saved_stdout, STDOUT_FILENO);
+		close(program->saved_stdout);
+		program->saved_stdout = -1;
+	}
 	parser_clear(program->parsed);
 }

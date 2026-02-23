@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/23 12:06:13 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/23 14:29:35 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@ void			free_t_commands_and_args(t_commands *elem);
 
 void			do_command_piped(t_program *program,
 					t_commands *cmd, char *path, char **envp);
-void			handle_the_child(t_program *program, t_commands *cmd);
+void			handle_the_child(t_program *program, t_commands *cmd,
+					t_commands *first);
 void			do_command(t_program *program,
 					t_parser *cmd, char *path, char **envp);
 
 //				---Children---			//
 void			handle_middle_child(t_program *program,
-					t_commands *cmd);
-void			handle_the_child(t_program *program, t_commands *cmd);
+					t_commands *cmd, t_commands *first);
+void			handle_the_child(t_program *program, t_commands *cmd,
+					t_commands *first);
 
 //				---Piped redirections---	//
 int				check_for_redirections(t_parser *cmd, t_commands *tofill);
