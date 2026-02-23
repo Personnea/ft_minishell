@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:50:18 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/23 18:12:22 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/23 19:28:00 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*find_command(char *command, char *pathline)
 	if (ft_strrchr(command, '/') != 0)
 	{
 		if (access(command, X_OK) == 0)
-			return (command);
+			return (ft_strdup(command));
 		ft_printf_fd(2, "miniswag: %s: %s\n", command,
 			"No such file or directory");
 		return (NULL);
