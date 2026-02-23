@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 08:26:42 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/23 19:07:45 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/23 19:15:00 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ int	execve_without_pipe(t_program *program,
 	t_parser **parsed, t_envpath *envpath, char **envp)
 {
 	t_parser	*cmd;
+	struct stat	st;
 
 	cmd = get_first_cmd_no_buildins(*parsed);
 	if (!cmd)
 		return (1);
 	make_redirection(*parsed);
-	if (unlink(HERE_DOC_TMPFILE) < 0)
-		return (perror("here_doc: unlink"), -1);
+	if (lstat(HERE_DOC_TMPFILE, &st) == 0)
+		unlink(HERE_DOC_TMPFILE);
 	exec_one_command(program, cmd,
 		get_env_value_by_key(&envpath, "PATH"), envp);
 	return (0);
