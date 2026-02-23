@@ -6,40 +6,37 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:53:31 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/23 17:43:38 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/23 17:53:06 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve.h"
 #include "../here_doc/here_doc.h"
 
-char	**ft_dup_matrix(char **tab)
+void	exit_is_dir(t_program *program, t_commands *cmd, char **args)
 {
-	char	**dup;
-	int		i;
+	error_message_is_a_directory(cmd->cmd->s);
+	free_t_program(program);
+	clearmatrix(args);
+	exit(126);
+}
 
-	if (!tab)
-		return (NULL);
-	i = 0;
-	while (tab[i])
-		i++;
-	dup = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!dup)
-		return (NULL);
-	i = -1;
-	while (tab[++i])
+void	exit_check_args_cmd(t_program *program, char **args,
+	char *new_cmd, t_commands *cmd)
+{
+	if (!args)
 	{
-		dup[i] = ft_strdup(tab[i]);
-		if (!dup[i])
-		{
-			while (i > 0)
-				free(dup[--i]);
-			free(dup);
-			return (NULL);
-		}
+		free_t_program(program);
+		clearmatrix(args);
+		exit (1);
 	}
-	dup[i] = NULL;
-	return (dup);
+	if (!new_cmd)
+	{
+		error_message_command_not_found(cmd->cmd->s);
+		free_t_program(program);
+		clearmatrix(args);
+		exit(127);
+	}
 }
 
 void	do_command_piped(t_program *program, t_commands *cmd,
@@ -57,26 +54,9 @@ void	do_command_piped(t_program *program, t_commands *cmd,
 	}
 	new_cmd = find_command(cmd->cmd->s, path);
 	args = ft_dup_matrix(cmd->args);
-	if (!args)
-	{
-		free_t_program(program);
-		clearmatrix(args);
-		exit (1);
-	}
-	if (!new_cmd)
-	{
-		error_message_command_not_found(cmd->cmd->s);
-		free_t_program(program);
-		clearmatrix(args);
-		exit(127);
-	}
+	exit_check_args_cmd(program, args, new_cmd, cmd);
 	if (stat(new_cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-	{
-		error_message_is_a_directory(cmd->cmd->s);
-		free_t_program(program);
-		clearmatrix(args);
-		exit(126);
-	}
+		exit_is_dir(program, cmd, args);
 	tcsetattr(STDIN_FILENO, TCSANOW, &program->g_term_orig);
 	free_t_program(program);
 	execve(new_cmd, args, envp);
@@ -84,25 +64,6 @@ void	do_command_piped(t_program *program, t_commands *cmd,
 	free(new_cmd);
 	free(args);
 	exit(127);
-}
-
-char	**provision_commands(t_parser *temp, char **splited_cmd)
-{
-	int		i;
-
-	i = 0;
-	while (temp && temp->type == CMD_ARG)
-	{
-		splited_cmd[i++] = ft_strdup(temp->s);
-		if (!splited_cmd[i - 1])
-		{
-			free_incomplete_matrix(splited_cmd, i - 1);
-			return (NULL);
-		}
-		temp = temp->next;
-	}
-	splited_cmd[i] = NULL;
-	return (splited_cmd);
 }
 
 void	do_command(t_program *program, t_parser *cmd, char *path, char **envp)

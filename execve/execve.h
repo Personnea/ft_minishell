@@ -6,7 +6,7 @@
 /*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:43:59 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/23 17:26:31 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/23 17:46:46 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void			handle_the_child(t_program *program, t_commands *cmd,
 					t_commands *first);
 void			do_command(t_program *program,
 					t_parser *cmd, char *path, char **envp);
+char			**ft_dup_matrix(char **tab);
+char			**provision_commands(t_parser *temp, char **splited_cmd);
 
 void			*free_incomplete_matrix(char **tab, int lines);
 int				parse_count_cmd_args(t_parser *cmd);
