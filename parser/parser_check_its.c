@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_check_its.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 02:24:30 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/25 15:33:40 by emaigne          ###   ########.fr       */
+/*   Updated: 2026/02/27 12:01:11 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	its_command(t_parser **head, char *s, int *i)
 	while (s[x] && s[x] != ' ' && s[x] != '\t' && s[x] != '|' && s[x] != '<'
 		&& s[x] != '>' && s[x] != '\'' && s[x] != '"' && s[x] != '$')
 		x++;
-	new = init_if_cmd(lparser, head, s, x);
 	if (s[x] == '$' && ((s[x + 1] == '"'
 				&& lparser->type == T_SPACE) || x == 0))
 		*i += 1;
@@ -71,6 +70,8 @@ int	its_command(t_parser **head, char *s, int *i)
 		return (1);
 	if (*s == '$' && x == 0)
 		new = parser_node_new(WAS_EXPANDED, (s), 1);
+	else
+		new = init_if_cmd(lparser, head, s, x);
 	if (new == NULL)
 		new = parser_node_new(CMD, (s), x);
 	if (new == 0)

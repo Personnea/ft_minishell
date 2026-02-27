@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 03:17:52 by emaigne           #+#    #+#             */
-/*   Updated: 2026/02/26 17:55:51 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/27 11:51:32 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ int	handle_redirections(t_program *program)
 	if (program->saved_stdout == -1)
 		program->saved_stdout = dup(STDOUT_FILENO);
 	if (file_handler(program->parsed))
+	{
+		program->last_exit_status = 1;
+		parser_clear(program->parsed);
 		return (1);
+	}
 	if (!there_is_at_least_one_pipe(*program->parsed))
 	{
 		program->here_doc_tempfile = HERE_DOC_TMPFILE;
