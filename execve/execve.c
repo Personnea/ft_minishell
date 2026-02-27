@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emaigne <emaigne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:44:15 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/26 18:01:51 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:17:21 by emaigne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	wait_for_childrens(void)
 	int	already_n;
 	int	last_status;
 
+	already_n = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFSIGNALED(status) && !already_n)
