@@ -6,7 +6,7 @@
 /*   By: abarthes <abarthes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:44:15 by abarthes          #+#    #+#             */
-/*   Updated: 2026/02/26 18:01:51 by abarthes         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:20:18 by abarthes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,13 @@ void	handle_piped_exec_exit(t_program *program, int pid)
 	if (WIFEXITED(store_status))
 		program->last_exit_status = WEXITSTATUS(store_status);
 	else if (WIFSIGNALED(store_status))
+	{
+		if (WTERMSIG(store_status) == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+		else
+			write(STDOUT_FILENO, "\n", 1);
 		program->last_exit_status = 128 + WTERMSIG(store_status);
+	}
 }
 
 int	wait_for_childrens(void)
@@ -58,11 +64,15 @@ int	wait_for_childrens(void)
 	int	already_n;
 	int	last_status;
 
+	already_n = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFSIGNALED(status) && !already_n)
 		{
-			write(STDOUT_FILENO, "\n", 1);
+			if (WTERMSIG(status) == SIGQUIT)
+				write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+			else
+				write(STDOUT_FILENO, "\n", 1);
 			already_n = 1;
 		}
 		last_status = WEXITSTATUS(status);
