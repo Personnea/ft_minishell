@@ -20,7 +20,8 @@ int	already_in_env(t_envpath **envpath, char *index)
 	temp = *envpath;
 	while (temp)
 	{
-		if (ft_strncmp(temp->index, index, ft_strlen(index)) == 0)
+		if (ft_strncmp(temp->index, index, ft_strlen(index)) == 0
+			&& ft_strlen(temp->index) == ft_strlen(index))
 			return (1);
 		temp = temp->next;
 	}

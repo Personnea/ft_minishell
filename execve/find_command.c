@@ -71,11 +71,7 @@ char	*find_command(char *command, char *pathline)
 	char	*pathcommand;
 
 	if (command == NULL)
-	{
-		if (!(access(command, F_OK) == 0))
-			perror("Permission denied");
 		return (NULL);
-	}
 	if (ft_strrchr(command, '/') != 0)
 	{
 		if (access(command, X_OK) == 0)

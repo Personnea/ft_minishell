@@ -65,6 +65,7 @@ int	wait_for_childrens(void)
 	int	last_status;
 
 	already_n = 0;
+	last_status = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFSIGNALED(status) && !already_n)

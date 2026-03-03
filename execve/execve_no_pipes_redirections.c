@@ -17,10 +17,16 @@
 static int	handle_output_redirection(t_parser *last_file_output)
 {
 	int	fd;
+	int	flags;
 
 	if (!last_file_output)
 		return (0);
-	fd = open(last_file_output->s, O_WRONLY);
+	if (last_file_output->prev
+		&& last_file_output->prev->type == REDIR_OUTPUT_APP)
+		flags = O_WRONLY | O_CREAT | O_APPEND;
+	else
+		flags = O_WRONLY | O_CREAT | O_TRUNC;
+	fd = open(last_file_output->s, flags, 0644);
 	if (fd < 0)
 		return (error_message_file_not_found(last_file_output->s), 1);
 	dup2(fd, STDOUT_FILENO);

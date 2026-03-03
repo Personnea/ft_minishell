@@ -52,11 +52,16 @@ void	handle_expansions(t_program *program)
 
 void	execute_and_restore(t_program *program)
 {
+	int	is_buildin;
+
+	is_buildin = 0;
 	if (!there_is_at_least_one_pipe(*(program->parsed)))
 	{
+		if ((*program->parsed)->type == CMD && (*program->parsed)->s)
+			is_buildin = is_a_buildin((*program->parsed)->s);
 		buildins(program->parsed, *program->envpath, program);
 	}
-	if (!((*program->parsed)->s[0] == ':'
+	if (!is_buildin && !((*program->parsed)->s[0] == ':'
 			&& ft_strlen((*program->parsed)->s) == 1))
 		execve_handler(program);
 	if (program->saved_stdin >= 0)

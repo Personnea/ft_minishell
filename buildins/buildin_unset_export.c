@@ -51,7 +51,7 @@ static char	*extract_key(char *str)
 	return (key);
 }
 
-static int	process_export_arg(t_parser *cmd, t_envpath *envpath)
+static int	process_export_arg(t_parser *cmd, t_envpath **envpath)
 {
 	char	*key;
 	char	*equal_sign;
@@ -59,14 +59,14 @@ static int	process_export_arg(t_parser *cmd, t_envpath *envpath)
 	equal_sign = ft_strchr(cmd->s, '=');
 	if (!equal_sign)
 	{
-		if (!new_envpath(&envpath, cmd->s, NULL))
+		if (!new_envpath(envpath, cmd->s, NULL))
 			return (0);
 		return (1);
 	}
 	key = extract_key(cmd->s);
 	if (!key)
 		return (0);
-	if (!new_envpath(&envpath, key, equal_sign + 1))
+	if (!new_envpath(envpath, key, equal_sign + 1))
 	{
 		free(key);
 		return (0);
@@ -89,7 +89,7 @@ int	buildin_export(t_parser *cmd, t_envpath *envpath, t_program *program)
 			printf("export: '%s': not a valid identifier\n", cmd->s);
 			program->last_exit_status = 1;
 		}
-		else if (!process_export_arg(cmd, envpath))
+		else if (!process_export_arg(cmd, program->envpath))
 			return (1);
 		cmd = cmd->next;
 	}
@@ -99,21 +99,12 @@ int	buildin_export(t_parser *cmd, t_envpath *envpath, t_program *program)
 int	buildin_unset(t_parser *cmd, t_envpath *envpath, t_program *program)
 {
 	t_parser	*temp;
-	t_envpath	*env_temp;
 
+	(void)envpath;
 	temp = cmd->next;
 	while (temp && temp->type == CMD_ARG)
 	{
-		env_temp = envpath;
-		while (env_temp)
-		{
-			if (ft_strncmp(env_temp->index, temp->s, ft_strlen(temp->s)) == 0)
-			{
-				envp_delone(env_temp);
-				break ;
-			}
-			env_temp = env_temp->next;
-		}
+		del_env_node_by_key(program->envpath, temp->s);
 		temp = temp->next;
 	}
 	program->last_exit_status = 0;

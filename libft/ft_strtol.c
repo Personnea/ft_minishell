@@ -33,10 +33,9 @@ long	ft_strtol(const char *str)
 	}
 	while (str[i] && ft_isdigit(str[i]))
 	{
-		result = result * 10 + (str[i] - '0');
-		if ((result > LLONG_MAX && sign == 1)
-			|| (result > LLONG_MIN && sign == -1))
+		if (result > (LLONG_MAX - (str[i] - '0')) / 10)
 			return (0);
+		result = result * 10 + (str[i] - '0');
 		i++;
 	}
 	return (result * sign);

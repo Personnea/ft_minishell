@@ -86,7 +86,7 @@ int	check_for_exit_arguments(t_program *p)
 	cur = (*p->parsed)->next;
 	while (cur)
 	{
-		if (!is_numeric_string(cur->s) || !ft_strtol(cur->s))
+		if (!is_numeric_string(cur->s))
 		{
 			ft_printf_fd(2, "exit: %s: numeric argument required\n", cur->s);
 			p->last_exit_status = 255;
@@ -102,7 +102,8 @@ int	check_for_exit_arguments(t_program *p)
 		return (-1);
 	}
 	if (p->parsed && *(p->parsed) && (*p->parsed)->next)
-		p->last_exit_status = ft_strtol((*p->parsed)->next->s) % 256;
+		p->last_exit_status = ((ft_strtol((*p->parsed)->next->s) % 256)
+				+ 256) % 256;
 	return (0);
 }
 

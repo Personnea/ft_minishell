@@ -21,13 +21,23 @@ CFLAGS  = -Wall -Wextra -Werror -g
 # Detect Homebrew readline prefix (empty if not installed)
 READLINE_PREFIX := $(shell brew --prefix readline 2>/dev/null || true)
 
-# ifeq ($(READLINE_PREFIX),)
-# READLINE_INCLUDES :=
-# READLINE_LIBS := -lreadline -ledit
-# else
+ifeq ($(READLINE_PREFIX),)
+# No brew: check for system readline headers, fall back to miniconda
+CONDA_PREFIX := $(shell command -v conda 2>/dev/null | sed 's|/bin/conda||' || true)
+ifneq ($(wildcard /usr/include/readline/readline.h),)
+READLINE_INCLUDES :=
+READLINE_LIBS := -lreadline -lcurses
+else ifneq ($(wildcard /usr/share/miniconda/include/readline/readline.h),)
+READLINE_INCLUDES := -I/usr/share/miniconda/include
+READLINE_LIBS := -L/usr/share/miniconda/lib -lreadline -lncurses
+else
+READLINE_INCLUDES :=
+READLINE_LIBS := -lreadline -lcurses
+endif
+else
 READLINE_INCLUDES := -I$(READLINE_PREFIX)/include
 READLINE_LIBS := -L$(READLINE_PREFIX)/lib -lreadline -lcurses
-# endif
+endif
 
 SRC =	terminal/terminal.c parser/tokenize.c parser/sanitize.c \
 		parser/sanitize_debug.c \
@@ -80,7 +90,7 @@ $(NAME): $(OBJ) $(LIBFT)
 	@echo "$(YELLOW)[MINISHELL] $(GREEN)executable created$(RESET)"
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_INCLUDES) -c $< -o $@
 
 $(LIBFT):
 	@make -C libft

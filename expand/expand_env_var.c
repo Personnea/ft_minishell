@@ -71,7 +71,7 @@ int	expand_env_var(t_parser **node, t_envpath *envpath, t_program *program)
 		return (parser_clear_one(node, program), 0);
 	expanded = parsing(value);
 	if (!expanded)
-		return (1);
+		return (parser_clear_one(node, program), 0);
 	next = (*node)->next;
 	replace_with_expansion(node, expanded);
 	attach_tail(*node, next);

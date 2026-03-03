@@ -21,7 +21,8 @@ void	del_env_node_by_key(t_envpath **head, char *key)
 	temp = *head;
 	while (temp)
 	{
-		if (ft_strncmp(temp->index, key, ft_strlen(key)) == 0)
+		if (ft_strncmp(temp->index, key, ft_strlen(key)) == 0
+			&& ft_strlen(temp->index) == ft_strlen(key))
 		{
 			if (temp == *head)
 				*head = temp->next;
