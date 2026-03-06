@@ -67,6 +67,7 @@ void	execute_and_restore(t_program *program)
 	}
 	if (program->saved_stdout >= 0)
 	{
+		fflush(stdout);
 		dup2(program->saved_stdout, STDOUT_FILENO);
 		close(program->saved_stdout);
 		program->saved_stdout = -1;

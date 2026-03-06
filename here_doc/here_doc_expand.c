@@ -54,6 +54,29 @@ static char	*expand_one_var(t_program *program, char *line, int i, int *new_i)
 	return (result);
 }
 
+static char	*expand_exit_status_var(t_program *program, char *line,
+	int i, int *new_i)
+{
+	char	*status_str;
+	char	*prefix;
+	char	*result;
+
+	status_str = ft_itoa(program->last_exit_status);
+	if (!status_str)
+		return (perror("here_doc: malloc"), free(line), NULL);
+	prefix = ft_strndup(line, i);
+	if (!prefix)
+		return (free(status_str), free(line), NULL);
+	result = ft_strjoin_gnl(prefix, status_str);
+	free(status_str);
+	if (!result)
+		return (free(line), NULL);
+	*new_i = ft_strlen(result);
+	result = ft_strjoin_gnl(result, line + i + 2);
+	free(line);
+	return (result);
+}
+
 char	*expand_line(t_program *program, char *line, t_parser *lineread)
 {
 	int		i;
@@ -63,6 +86,14 @@ char	*expand_line(t_program *program, char *line, t_parser *lineread)
 	i = 0;
 	while (line[i])
 	{
+		if (line[i] == '$' && line[i + 1] == '?')
+		{
+			line = expand_exit_status_var(program, line, i, &new_i);
+			if (!line)
+				return (NULL);
+			i = new_i;
+			continue ;
+		}
 		if (line[i] == '$' && (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
 		{
 			line = expand_one_var(program, line, i, &new_i);

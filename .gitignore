@@ -1,0 +1,13 @@
+# Compiled object files
+*.o
+*.a
+
+# Minishell executable
+minishell
+
+# Heredoc temp files
+.here_doc_tempfile
+.heredoc_temp_file*
+
+# CI logs
+ci_logs/

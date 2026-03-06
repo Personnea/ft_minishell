@@ -25,16 +25,44 @@ static int	is_only_delimiter(t_parser *lr, char *line)
 
 static char	*read_heredoc_line(void)
 {
+	char	buf[256];
 	char	*line;
+	char	*tmp;
 	size_t	len;
+	size_t	cap;
+	int		ret;
 
 	write(1, "> ", 2);
-	line = get_next_line(STDIN_FILENO);
+	cap = 256;
+	len = 0;
+	line = malloc(cap);
 	if (!line)
 		return (NULL);
-	len = ft_strlen(line);
-	if (len > 0 && line[len - 1] == '\n')
-		line[len - 1] = '\0';
+	line[0] = '\0';
+	while (1)
+	{
+		ret = read(STDIN_FILENO, buf, 1);
+		if (ret <= 0)
+		{
+			if (len == 0)
+				return (free(line), NULL);
+			break ;
+		}
+		if (buf[0] == '\n')
+			break ;
+		if (len + 2 > cap)
+		{
+			cap *= 2;
+			tmp = malloc(cap);
+			if (!tmp)
+				return (free(line), NULL);
+			ft_memcpy(tmp, line, len);
+			free(line);
+			line = tmp;
+		}
+		line[len++] = buf[0];
+		line[len] = '\0';
+	}
 	return (line);
 }
 
@@ -64,7 +92,7 @@ int	doing_here_doc_util(t_program *p, t_parser *lr, char *tempfile, int mode)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	return (get_next_line(-1), close(fd), 0);
+	return (close(fd), 0);
 }
 
 int	checking_is_delimiter(t_parser *temp, int *mode)
@@ -107,7 +135,6 @@ int	doing_here_doc(t_program *program, char *tempfile)
 		mode = 1;
 		temp = temp->next;
 	}
-	get_next_line(-1);
 	enable_echoctl();
 	return (0);
 }
